@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free micro web tools - Calculators, generators, converters and more. No signup required.">
+    <meta name="keywords" content="free tools, tip calculator, ROI calculator, word counter, invoice generator, color palette, countdown timer">
+    <title>Free Micro Web Tools | Online Utilities Hub</title>
+    
+    <!-- Open Graph / Social Meta -->
+    <meta property="og:title" content="Free Micro Web Tools">
+    <meta property="og:description" content="Collection of free online tools - calculators, generators, converters and more!">
+    <meta property="og:type" content="website">
+    
+    <style>
+        /* ========== CSS Reset & Variables ========== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #e0e7ff;
+            --secondary: #ec4899;
+            --accent-1: #06b6d4;
+            --accent-2: #10b981;
+            --accent-3: #f59e0b;
+            --accent-4: #8b5cf6;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ========== Layout ========== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        /* ========== Ad Placeholder ========== */
+        .ad-container {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        /* ========== Hero Header ========== */
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            max-width: 500px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* ========== Instructions Banner ========== */
+        .instructions-banner {
+            background: var(--primary-light);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .instructions-icon {
+            font-size: 1.5rem;
+        }
+
+        .instructions-text {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .instructions-text strong {
+            color: var(--primary-dark);
+        }
+
+        .instructions-text p {
+            font-size: 0.875rem;
+            color: var(--text);
+            margin: 0;
+        }
+
+        /* ========== Tools Grid ========== */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* ========== Tool Card ========== */
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--card-accent, var(--primary));
+        }
+
+        .tool-card[data-color="pink"]::before { background: linear-gradient(90deg, #ec4899, #f472b6); }
+        .tool-card[data-color="green"]::before { background: linear-gradient(90deg, #10b981, #34d399); }
+        .tool-card[data-color="purple"]::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .tool-card[data-color="blue"]::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+        .tool-card[data-color="orange"]::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .tool-card[data-color="cyan"]::before { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+        .tool-card[data-color="rose"]::before { background: linear-gradient(90deg, #f43f5e, #fb7185); }
+        .tool-card[data-color="indigo"]::before { background: linear-gradient(90deg, #6366f1, #818cf8); }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .tool-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .tool-description {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .tool-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.375rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-tag {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            background: #f1f5f9;
+            color: var(--text-muted);
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .tool-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--text);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .tool-link:hover {
+            background: var(--primary);
+            transform: scale(1.02);
+        }
+
+        .tool-link span {
+            transition: transform 0.2s;
+        }
+
+        .tool-link:hover span {
+            transform: translateX(2px);
+        }
+
+        /* ========== Features Section ========== */
+        .features {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .features-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .feature-name {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .feature-desc {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+
+        /* ========== Footer ========== */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8125rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* ========== Responsive ========== */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .hero-title {
+                font-size: 1.75rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .instructions-banner {
+                text-align: center;
+                justify-content: center;
+            }
+        }
+
+        /* ========== Animation ========== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tool-card {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .tool-card:nth-child(1) { animation-delay: 0.05s; }
+        .tool-card:nth-child(2) { animation-delay: 0.1s; }
+        .tool-card:nth-child(3) { animation-delay: 0.15s; }
+        .tool-card:nth-child(4) { animation-delay: 0.2s; }
+        .tool-card:nth-child(5) { animation-delay: 0.25s; }
+        .tool-card:nth-child(6) { animation-delay: 0.3s; }
+        .tool-card:nth-child(7) { animation-delay: 0.35s; }
+        .tool-card:nth-child(8) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 
+        ========== GOOGLE ADSENSE PLACEHOLDER ==========
+        Replace this div with your actual AdSense responsive ad code.
+        Example implementation:
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        -->
+        <div class="ad-container">
+            <span>📢 Advertisement Space<br>(Google AdSense Responsive Ad)</span>
+        </div>
+
+        <!-- Hero Header -->
+        <header class="hero">
+            <div class="hero-content">
+                <span class="hero-icon">🧰</span>
+                <h1 class="hero-title">Free Micro Web Tools</h1>
+                <p class="hero-subtitle">
+                    A collection of free, simple online tools. No signup required. 
+                    Just click and use!
+                </p>
+                <div class="hero-badge">
+                    <span>✨</span>
+                    <span>8 Free Tools Available</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Instructions Banner -->
+        <div class="instructions-banner">
+            <span class="instructions-icon">💡</span>
+            <div class="instructions-text">
+                <p><strong>How to use:</strong> Click any tool card below to open it in a new tab. All tools are free, require no signup, and work instantly in your browser!</p>
+            </div>
+        </div>
+
+        <!-- Tools Grid -->
+        <section class="tools-grid">
+            
+            <!-- Tool 1: Tip Calculator -->
+            <article class="tool-card" data-color="green">
+                <span class="tool-icon">💰</span>
+                <h2 class="tool-name">Tip Calculator</h2>
+                <p class="tool-description">
+                    Calculate tips easily! Enter your bill amount, tip percentage, and split between multiple people.
+                </p>
+                <div class="tool-tags">
+                    <span class="tool-tag">Calculator</span>
+                    <span class="tool-tag">Finance</span>
+                </div>
+                <!-- Replace # with live URL for Tip Calculator -->
+                <a href="#" class="tool-link" target="_blank" rel="noopener noreferrer">
+                    Open Tool <span>→</span>
+                </a>
+            </article>
+
+            <!-- Tool 2: Small Biz ROI Calculator -->
+            <article class="tool-card" data-color="blue">
+                <span class="tool-icon">📈</span>
+                <h2 class="tool-name">Small Biz ROI Calculator</h2>
+                <p class="tool-description">
+                    Calculate your return on investment. Enter spending and revenue to see your ROI percentage instantly.
+                </p>
+                <div class="tool-tags">
+                    <span class="tool-tag">Business</span>
+                    <span class="tool-tag">Finance</span>
+                </div>
+                <!-- Replace # with live URL for ROI Calculator -->
+                <a href="#" class="tool-link" target="_blank" rel="noopener noreferrer">
+                    Open Tool <span>→</span>
+                </a>
+            </article>
+
+            <!-- Tool 3: Word/Character Counter -->
+            <article class="tool-card" data-color="purple">
+                <span class="tool-icon">📝</span>
+                <h2 class="tool-name">Word & Character Counter</h2>
+                <p class="tool-description">
+                    Count words, characters, sentences, and paragraphs. Includes estimated reading and speaking time.
+                </p>
+                <div class="tool-tags">
+                    <span class="tool-tag">Writing</span>
+                    <span class="tool-tag">Productivity</span>
+                </div>
+                <!-- Replace # with live URL for Word Counter -->
+                <a href="#" class="tool-link" target="_blank" rel="noopener noreferrer">
+                    Open Tool <span>→</span>
+                </a>
+            </article>
+
+            <!-- Tool 4: Invoice Generator -->
+            <article class="tool-card" data-color="cyan">
+                <span class="tool-icon">🧾</span>
+                <h2 class="tool-name">Simple Invoice Generator</h2>
+                <p class="tool-description">
+                    Create professional PDF invoices in seconds. Add items, set tax rates, and download instantly.
+                </p>
+                <div class="tool-tags">
+                    <span class="tool-tag">Business</span>
+                    <span class="tool-tag">PDF</span>
+                </div>
+                <!-- Replace # with live URL for Invoice Generator -->
+                <a href="#" class="tool-link" target="_blank" rel="noopener noreferrer">
+                    Open Tool <span>→</span>
+                </a>
+            </article>
+
+            <!-- Tool 5: Color Palette Generator -->
+            <article class="tool-card" data-color="pink">
+                <span class="tool-icon">🎨</span>
+                <h2 class="tool-name">Color Palette Generator</h2>
+                <p class="tool-description">
+                    Generate beautiful color schemes from any base color. Supports multiple harmony types and CSS export.
+                </p>
+                <div class="tool-tags">
+                    <span class="tool-tag">Design</span>
+                    <span class="tool-tag">Colors</span>
+                </div>
+                <!-- Replace # with live URL for Color Palette Generator -->
+                <a href="#" class="tool-link" target="_blank" rel="noopener noreferrer">
+                    Open Tool <span>→</span>
+                </a>
+            </article>
+
+            <!-- Tool 6: Random Name Generator -->
+            <article class="tool-card" data-color="orange">
+                <span class="tool-icon">🎲</span>
+                <h2 class="tool-name">Random Name Generator</h2>
+                <p class="tool-description">
+                    Generate creative names for projects, teams, pets, or characters. Multiple styles and categories available.
+                </p>
+                <div class="tool-tags">
+                    <span class="tool-tag">Creative</span>
+                    <span class="tool-tag">Generator</span>
+                </div>
+                <!-- Replace # with live URL for Random Name Generator -->
+                <a href="#" class="tool-link" target="_blank" rel="noopener noreferrer">
+                    Open Tool <span>→</span>
+                </a>
+            </article>
+
+            <!-- Tool 7: Markdown to HTML Converter -->
+            <article class="tool-card" data-color="indigo">
+                <span class="tool-icon">📄</span>
+                <h2 class="tool-name">Markdown to HTML Converter</h2>
+                <p class="tool-description">
+                    Convert Markdown to HTML with live preview. Supports headers, lists, code blocks, tables, and more.
+                </p>
+                <div class="tool-tags">
+                    <span class="tool-tag">Developer</span>
+                    <span class="tool-tag">Converter</span>
+                </div>
+                <!-- Replace # with live URL for Markdown Converter -->
+                <a href="#" class="tool-link" target="_blank" rel="noopener noreferrer">
+                    Open Tool <span>→</span>
+                </a>
+            </article>
+
+            <!-- Tool 8: Countdown Timer -->
+            <article class="tool-card" data-color="rose">
+                <span class="tool-icon">⏱️</span>
+                <h2 class="tool-name">Countdown & Timer Tool</h2>
+                <p class="tool-description">
+                    Count down to any date or set quick timers. Includes stopwatch mode, laps, and holiday presets.
+                </p>
+                <div class="tool-tags">
+                    <span class="tool-tag">Utility</span>
+                    <span class="tool-tag">Timer</span>
+                </div>
+                <!-- Replace # with live URL for Countdown Timer -->
+                <a href="#" class="tool-link" target="_blank" rel="noopener noreferrer">
+                    Open Tool <span>→</span>
+                </a>
+            </article>
+
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <h2 class="features-title">Why Use Our Tools?</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">🚀</span>
+                    <h3 class="feature-name">Instant Access</h3>
+                    <p class="feature-desc">No downloads or signups. Just click and use immediately.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🔒</span>
+                    <h3 class="feature-name">Privacy First</h3>
+                    <p class="feature-desc">All processing happens in your browser. Your data stays with you.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📱</span>
+                    <h3 class="feature-name">Mobile Friendly</h3>
+                    <p class="feature-desc">Works perfectly on phones, tablets, and desktops.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">💯</span>
+                    <h3 class="feature-name">100% Free</h3>
+                    <p class="feature-desc">All tools are completely free to use, forever.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>© 2026 Free Micro Web Tools. All tools are free to use.</p>
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        /**
+         * Free Micro Web Tools Hub
+         * Simple interactive enhancements
+         */
+        (function() {
+            'use strict';
+
+            // Track tool clicks (optional analytics placeholder)
+            const toolLinks = document.querySelectorAll('.tool-link');
+            
+            toolLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const toolName = link.closest('.tool-card').querySelector('.tool-name').textContent;
+                    console.log(`Tool opened: ${toolName}`);
+                    
+                    // Placeholder for analytics
+                    // gtag('event', 'tool_click', { tool_name: toolName });
+                });
+            });
+
+            // Add smooth scroll behavior
+            document.documentElement.style.scrollBehavior = 'smooth';
+
+            // Log welcome message
+            console.log('🧰 Free Micro Web Tools Hub loaded!');
+            console.log('📌 Remember to replace placeholder URLs with live tool URLs.');
+        })();
+    </script>
+
+    <!-- 
+    ========== URL REPLACEMENT CHECKLIST ==========
+    Replace the href="#" in each tool card with your live deployed URLs:
+    
+    1. Tip Calculator: 
+       href="#" → href="https://your-domain.com/tip-calculator.html"
+    
+    2. Small Biz ROI Calculator: 
+       href="#" → href="https://your-domain.com/roi-calculator.html"
+    
+    3. Word & Character Counter: 
+       href="#" → href="https://your-domain.com/word-counter.html"
+    
+    4. Simple Invoice Generator: 
+       href="#" → href="https://your-domain.com/invoice-generator.html"
+    
+    5. Color Palette Generator: 
+       href="#" → href="https://your-domain.com/color-palette-generator.html"
+    
+    6. Random Name Generator: 
+       href="#" → href="https://your-domain.com/random-name-generator.html"
+    
+    7. Markdown to HTML Converter: 
+       href="#" → href="https://your-domain.com/markdown-to-html.html"
+    
+    8. Countdown & Timer Tool: 
+       href="#" → href="https://your-domain.com/countdown-timer.html"
+    
+    ============================================
+    -->
+</body>
+</html>
