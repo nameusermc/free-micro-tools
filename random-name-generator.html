@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free random name generator for projects, teams, pets, and more">
-    <title>Random Name Generator | Projects, Teams & Pet Names</title>
+    <meta name="description" content="Free Random Name Generator - Generate random names, assign teams, or create placeholder lists. Perfect for mockups, testing, team assignments, raffles, and random selection tasks.">
+    <meta name="keywords" content="random name generator, team generator, random picker, raffle picker, placeholder names, random list">
+    <link rel="canonical" href="https://free-micro-tools.vercel.app/random-name-generator.html">
+    <title>Random Name Generator — Free List & Team Tool | Free Micro Tools</title>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Random Name Generator",
+        "description": "Generate random names, assign teams, and create placeholder lists",
+        "url": "https://free-micro-tools.vercel.app/random-name-generator.html",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
     <style>
         /* ========== CSS Reset & Variables ========== */
         *, *::before, *::after {
@@ -41,22 +61,6 @@
         .container {
             max-width: 560px;
             margin: 0 auto;
-        }
-
-        /* ========== Ad Placeholder ========== */
-        .ad-container {
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            border: 2px dashed #fcd34d;
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            min-height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 0.875rem;
         }
 
         /* ========== Card Component ========== */
@@ -100,6 +104,42 @@
             font-size: 0.875rem;
         }
 
+        /* ========== Mode Tabs ========== */
+        .mode-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background: #f5f5f4;
+            padding: 0.375rem;
+            border-radius: 10px;
+        }
+
+        .mode-tab {
+            flex: 1;
+            padding: 0.75rem 0.5rem;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.375rem;
+        }
+
+        .mode-tab:hover {
+            background: white;
+        }
+
+        .mode-tab.active {
+            background: white;
+            color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+
         /* ========== Form Elements ========== */
         .form-section {
             margin-bottom: 1.5rem;
@@ -115,6 +155,29 @@
             margin-bottom: 0.5rem;
             font-size: 0.875rem;
             color: var(--text);
+        }
+
+        textarea, input[type="number"] {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s;
+            background: #fafafa;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px var(--primary-light);
         }
 
         /* ========== Category Cards ========== */
@@ -246,24 +309,24 @@
         .btn-generate {
             width: 100%;
             padding: 1rem 1.5rem;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
             border: none;
             border-radius: 12px;
-            font-size: 1.0625rem;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            box-shadow: 0 4px 14px 0 rgba(245, 158, 11, 0.4);
+            box-shadow: 0 4px 14px -3px rgba(245, 158, 11, 0.5);
         }
 
         .btn-generate:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px 0 rgba(245, 158, 11, 0.5);
+            box-shadow: 0 6px 20px -3px rgba(245, 158, 11, 0.6);
         }
 
         .btn-generate:active {
@@ -274,16 +337,18 @@
         .results-section {
             display: none;
             margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px dashed var(--border);
+        }
+
+        .results-section.show {
+            display: block;
             animation: fadeIn 0.3s ease;
         }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        .results-section.show {
-            display: block;
         }
 
         .results-header {
@@ -294,19 +359,19 @@
         }
 
         .results-title {
-            font-weight: 700;
             font-size: 1rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
         .btn-regenerate {
-            padding: 0.5rem 0.875rem;
+            padding: 0.5rem 1rem;
             border: 2px solid var(--border);
             background: white;
             border-radius: 8px;
-            font-size: 0.75rem;
+            font-size: 0.8125rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
@@ -317,91 +382,128 @@
 
         .btn-regenerate:hover {
             border-color: var(--primary);
-            color: var(--primary);
+            background: var(--primary-light);
         }
 
-        /* ========== Name Cards ========== */
+        /* ========== Names Grid ========== */
         .names-grid {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            margin-bottom: 1rem;
         }
 
         .name-card {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            background: linear-gradient(135deg, #fafaf9 0%, #f5f5f4 100%);
-            border: 1px solid var(--border);
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: #fafaf9;
+            border: 2px solid var(--border);
             border-radius: 10px;
-            padding: 0.875rem 1rem;
+            cursor: pointer;
             transition: all 0.2s;
         }
 
         .name-card:hover {
             border-color: var(--primary);
-            transform: translateX(4px);
-            box-shadow: var(--shadow);
-        }
-
-        .name-text {
-            font-weight: 700;
-            font-size: 1.0625rem;
-            color: var(--text);
-        }
-
-        .name-index {
-            width: 28px;
-            height: 28px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-right: 0.75rem;
-            flex-shrink: 0;
+            background: var(--primary-light);
         }
 
         .name-info {
             display: flex;
             align-items: center;
-            flex: 1;
-            min-width: 0;
+            gap: 0.75rem;
+        }
+
+        .name-index {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .name-text {
+            font-weight: 600;
+            color: var(--text);
         }
 
         .btn-copy-name {
-            padding: 0.375rem 0.625rem;
-            border: 1px solid var(--border);
-            background: white;
+            padding: 0.375rem 0.75rem;
+            border: none;
+            background: var(--primary);
+            color: white;
             border-radius: 6px;
-            font-size: 0.6875rem;
+            font-size: 0.75rem;
             font-weight: 600;
-            color: var(--text-muted);
             cursor: pointer;
             transition: all 0.2s;
-            flex-shrink: 0;
         }
 
         .btn-copy-name:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
+            background: var(--primary-dark);
+        }
+
+        /* ========== Team Results ========== */
+        .team-results {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .team-group {
+            background: #fafaf9;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .team-group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .team-group-name {
+            font-weight: 700;
+            font-size: 0.9375rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .team-group-count {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: var(--primary-light);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .team-member {
+            padding: 0.375rem 0;
+            font-size: 0.875rem;
+            color: var(--text);
         }
 
         /* ========== Copy All Button ========== */
         .btn-copy-all {
             width: 100%;
-            padding: 0.875rem;
-            margin-top: 1rem;
-            border: 2px solid var(--accent);
-            background: #ecfdf5;
-            color: var(--accent);
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            background: white;
             border-radius: 10px;
             font-size: 0.875rem;
-            font-weight: 700;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
@@ -411,62 +513,58 @@
         }
 
         .btn-copy-all:hover {
-            background: var(--accent);
-            color: white;
+            border-color: var(--accent);
+            background: #d1fae5;
+            color: #065f46;
         }
 
-        /* ========== Toast ========== */
-        .toast {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--text);
-            color: white;
-            padding: 0.75rem 1.5rem;
+        /* ========== Section Visibility ========== */
+        .mode-section {
+            display: none;
+        }
+
+        .mode-section.active {
+            display: block;
+        }
+
+        /* ========== Tool Description ========== */
+        .tool-description {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-left: 4px solid var(--primary);
             border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
             font-size: 0.875rem;
-            font-weight: 600;
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 1000;
         }
 
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
+        .tool-description p {
+            margin: 0;
+            color: var(--text);
         }
 
         /* ========== Instructions ========== */
         .instructions {
-            background: var(--primary-light);
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
             border-radius: 10px;
             padding: 1rem;
-            margin-top: 1.25rem;
+            margin-top: 1.5rem;
             border-left: 4px solid var(--primary);
         }
 
         .instructions h3 {
             font-size: 0.875rem;
-            margin-bottom: 0.625rem;
+            margin-bottom: 0.5rem;
             color: var(--primary-dark);
-            display: flex;
-            align-items: center;
-            gap: 0.375rem;
         }
 
         .instructions ul {
-            margin-left: 1.25rem;
             font-size: 0.8125rem;
+            margin-left: 1.25rem;
             color: var(--text);
         }
 
         .instructions li {
-            margin-bottom: 0.375rem;
-        }
-
-        .instructions li::marker {
-            color: var(--primary);
+            margin-bottom: 0.25rem;
         }
 
         /* ========== Footer ========== */
@@ -493,19 +591,27 @@
             color: var(--primary);
         }
 
-        /* ========== Tool Description ========== */
-        .tool-description {
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            border-left: 4px solid var(--primary);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
+        /* ========== Toast ========== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text);
+            color: white;
+            padding: 0.875rem 1.5rem;
+            border-radius: 10px;
             font-size: 0.875rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
         }
 
-        .tool-description p {
-            margin: 0;
-            color: var(--text);
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
 
         /* ========== Responsive ========== */
@@ -516,7 +622,7 @@
             }
 
             .category-card {
-                padding: 0.75rem 0.375rem;
+                padding: 0.75rem 0.25rem;
             }
 
             .category-icon {
@@ -525,6 +631,11 @@
 
             .type-pills {
                 justify-content: center;
+            }
+
+            .mode-tab {
+                font-size: 0.75rem;
+                padding: 0.625rem 0.375rem;
             }
         }
     </style>
@@ -535,11 +646,11 @@
         <script async="async" data-cfasync="false" src="https://pl28621250.effectivegatecpm.com/d403dd911608318630226f132a1dc636/invoke.js"></script>
         <div id="container-d403dd911608318630226f132a1dc636"></div>
 
-<a href="index.html">← Back to Tools</a>
+        <a href="index.html">← Back to Tools</a>
 
         <!-- Tool Description -->
         <div class="tool-description">
-            <p>Generate creative names for projects, teams, pets, startups, or characters with this free browser-based tool. Choose from fun, professional, or fantasy styles.</p>
+            <p>Generate random names, assign people to teams, or create placeholder items. Fast, simple, no signup required.</p>
         </div>
 
         <!-- Main Tool Card -->
@@ -547,99 +658,208 @@
             <!-- Header -->
             <header class="header">
                 <div class="header-icon">🎲</div>
-                <h1 class="header-title">Random Name Generator</h1>
-                <p class="header-subtitle">Generate creative names for anything!</p>
+                <h1 class="header-title">List Generator</h1>
+                <p class="header-subtitle">Names, teams, and placeholders</p>
             </header>
 
-            <!-- Category Selection -->
-            <div class="form-section">
-                <label>🎨 Choose a Style</label>
-                <div class="category-grid">
-                    <div class="category-card active" data-category="fun">
-                        <span class="category-icon">🎉</span>
-                        <span class="category-name">Fun</span>
-                        <span class="category-desc">Playful & quirky</span>
-                    </div>
-                    <div class="category-card" data-category="professional">
-                        <span class="category-icon">💼</span>
-                        <span class="category-name">Professional</span>
-                        <span class="category-desc">Clean & formal</span>
-                    </div>
-                    <div class="category-card" data-category="fantasy">
-                        <span class="category-icon">🐉</span>
-                        <span class="category-name">Fantasy</span>
-                        <span class="category-desc">Epic & magical</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Type Selection -->
-            <div class="type-section">
-                <label>🏷️ What's It For?</label>
-                <div class="type-pills">
-                    <button class="type-pill active" data-type="project">
-                        <span>📁</span> Project
-                    </button>
-                    <button class="type-pill" data-type="team">
-                        <span>👥</span> Team
-                    </button>
-                    <button class="type-pill" data-type="pet">
-                        <span>🐾</span> Pet
-                    </button>
-                    <button class="type-pill" data-type="startup">
-                        <span>🚀</span> Startup
-                    </button>
-                    <button class="type-pill" data-type="character">
-                        <span>🎭</span> Character
-                    </button>
-                </div>
-            </div>
-
-            <!-- Number of Names -->
-            <div class="form-group">
-                <label>🔢 How Many Names?</label>
-                <div class="number-control">
-                    <button class="number-btn" id="decreaseBtn">−</button>
-                    <div>
-                        <div class="number-display" id="countDisplay">5</div>
-                        <div class="number-label">names</div>
-                    </div>
-                    <button class="number-btn" id="increaseBtn">+</button>
-                </div>
-            </div>
-
-            <!-- Generate Button -->
-            <button class="btn-generate" id="generateBtn">
-                <span>✨</span> Generate Names
-            </button>
-
-            <!-- Results Section -->
-            <div class="results-section" id="resultsSection">
-                <div class="results-header">
-                    <h2 class="results-title">
-                        <span>🎁</span> Your Names
-                    </h2>
-                    <button class="btn-regenerate" id="regenerateBtn">
-                        <span>🔄</span> Shuffle
-                    </button>
-                </div>
-                <div class="names-grid" id="namesGrid">
-                    <!-- Generated names will appear here -->
-                </div>
-                <button class="btn-copy-all" id="copyAllBtn">
-                    <span>📋</span> Copy All Names
+            <!-- Mode Tabs -->
+            <div class="mode-tabs">
+                <button class="mode-tab active" data-mode="names">
+                    <span>✨</span> Random Names
                 </button>
+                <button class="mode-tab" data-mode="teams">
+                    <span>👥</span> Team Assign
+                </button>
+                <button class="mode-tab" data-mode="placeholders">
+                    <span>📝</span> Placeholders
+                </button>
+            </div>
+
+            <!-- ========== RANDOM NAMES MODE ========== -->
+            <div class="mode-section active" id="namesSection">
+                <!-- Category Selection -->
+                <div class="form-section">
+                    <label>🎨 Choose a Style</label>
+                    <div class="category-grid">
+                        <div class="category-card active" data-category="fun">
+                            <span class="category-icon">🎉</span>
+                            <span class="category-name">Fun</span>
+                            <span class="category-desc">Playful & quirky</span>
+                        </div>
+                        <div class="category-card" data-category="professional">
+                            <span class="category-icon">💼</span>
+                            <span class="category-name">Professional</span>
+                            <span class="category-desc">Clean & formal</span>
+                        </div>
+                        <div class="category-card" data-category="fantasy">
+                            <span class="category-icon">🐉</span>
+                            <span class="category-name">Fantasy</span>
+                            <span class="category-desc">Epic & magical</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Type Selection -->
+                <div class="type-section">
+                    <label>🏷️ What's It For?</label>
+                    <div class="type-pills">
+                        <button class="type-pill active" data-type="project">
+                            <span>📁</span> Project
+                        </button>
+                        <button class="type-pill" data-type="team">
+                            <span>👥</span> Team
+                        </button>
+                        <button class="type-pill" data-type="pet">
+                            <span>🐾</span> Pet
+                        </button>
+                        <button class="type-pill" data-type="startup">
+                            <span>🚀</span> Startup
+                        </button>
+                        <button class="type-pill" data-type="character">
+                            <span>🎭</span> Character
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Number of Names -->
+                <div class="form-group">
+                    <label>🔢 How Many Names?</label>
+                    <div class="number-control">
+                        <button class="number-btn" id="decreaseBtn">−</button>
+                        <div>
+                            <div class="number-display" id="countDisplay">5</div>
+                            <div class="number-label">names</div>
+                        </div>
+                        <button class="number-btn" id="increaseBtn">+</button>
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <button class="btn-generate" id="generateNamesBtn">
+                    <span>✨</span> Generate Names
+                </button>
+
+                <!-- Results Section -->
+                <div class="results-section" id="namesResults">
+                    <div class="results-header">
+                        <h2 class="results-title">
+                            <span>🎁</span> Your Names
+                        </h2>
+                        <button class="btn-regenerate" id="regenerateNamesBtn">
+                            <span>🔄</span> Shuffle
+                        </button>
+                    </div>
+                    <div class="names-grid" id="namesGrid"></div>
+                    <button class="btn-copy-all" id="copyAllNamesBtn">
+                        <span>📋</span> Copy All Names
+                    </button>
+                </div>
+            </div>
+
+            <!-- ========== TEAM ASSIGNMENT MODE ========== -->
+            <div class="mode-section" id="teamsSection">
+                <div class="form-group">
+                    <label>📋 Enter Names (one per line)</label>
+                    <textarea id="teamNamesInput" placeholder="Alice
+Bob
+Charlie
+Diana
+Eve
+Frank"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>👥 Number of Teams</label>
+                    <div class="number-control">
+                        <button class="number-btn" id="decreaseTeamsBtn">−</button>
+                        <div>
+                            <div class="number-display" id="teamsCountDisplay">2</div>
+                            <div class="number-label">teams</div>
+                        </div>
+                        <button class="number-btn" id="increaseTeamsBtn">+</button>
+                    </div>
+                </div>
+
+                <button class="btn-generate" id="generateTeamsBtn">
+                    <span>👥</span> Assign Teams
+                </button>
+
+                <div class="results-section" id="teamsResults">
+                    <div class="results-header">
+                        <h2 class="results-title">
+                            <span>🏆</span> Team Assignments
+                        </h2>
+                        <button class="btn-regenerate" id="reshuffleTeamsBtn">
+                            <span>🔄</span> Reshuffle
+                        </button>
+                    </div>
+                    <div class="team-results" id="teamsGrid"></div>
+                    <button class="btn-copy-all" id="copyAllTeamsBtn">
+                        <span>📋</span> Copy All Teams
+                    </button>
+                </div>
+            </div>
+
+            <!-- ========== PLACEHOLDERS MODE ========== -->
+            <div class="mode-section" id="placeholdersSection">
+                <div class="form-group">
+                    <label>📝 Placeholder Type</label>
+                    <div class="type-pills">
+                        <button class="type-pill active" data-placeholder="items">
+                            <span>📦</span> Items
+                        </button>
+                        <button class="type-pill" data-placeholder="users">
+                            <span>👤</span> Users
+                        </button>
+                        <button class="type-pill" data-placeholder="tasks">
+                            <span>✅</span> Tasks
+                        </button>
+                        <button class="type-pill" data-placeholder="products">
+                            <span>🛍️</span> Products
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>🔢 How Many?</label>
+                    <div class="number-control">
+                        <button class="number-btn" id="decreasePlaceholdersBtn">−</button>
+                        <div>
+                            <div class="number-display" id="placeholdersCountDisplay">5</div>
+                            <div class="number-label">items</div>
+                        </div>
+                        <button class="number-btn" id="increasePlaceholdersBtn">+</button>
+                    </div>
+                </div>
+
+                <button class="btn-generate" id="generatePlaceholdersBtn">
+                    <span>📝</span> Generate Placeholders
+                </button>
+
+                <div class="results-section" id="placeholdersResults">
+                    <div class="results-header">
+                        <h2 class="results-title">
+                            <span>📦</span> Placeholders
+                        </h2>
+                        <button class="btn-regenerate" id="regeneratePlaceholdersBtn">
+                            <span>🔄</span> Shuffle
+                        </button>
+                    </div>
+                    <div class="names-grid" id="placeholdersGrid"></div>
+                    <button class="btn-copy-all" id="copyAllPlaceholdersBtn">
+                        <span>📋</span> Copy All
+                    </button>
+                </div>
             </div>
 
             <!-- Instructions -->
             <div class="instructions">
                 <h3>📖 How to Use</h3>
                 <ul>
-                    <li><strong>Choose a style:</strong> Fun, Professional, or Fantasy</li>
-                    <li><strong>Select a type:</strong> Project, Team, Pet, Startup, or Character</li>
-                    <li><strong>Set the count:</strong> Generate 1 to 20 names at once</li>
-                    <li><strong>Click Generate:</strong> Get your unique name suggestions!</li>
-                    <li><strong>Click any name</strong> to copy it, or copy all at once</li>
+                    <li><strong>Random Names:</strong> Generate creative names for projects, teams, pets, etc.</li>
+                    <li><strong>Team Assign:</strong> Paste a list of names and randomly divide into groups</li>
+                    <li><strong>Placeholders:</strong> Generate dummy items, users, tasks, or products for testing</li>
+                    <li><strong>Click any item</strong> to copy it, or copy all at once</li>
                 </ul>
             </div>
         </main>
@@ -660,17 +880,11 @@
     </div>
 
     <script>
-        /**
-         * Random Name Generator
-         * Generates creative names based on category and type
-         * Pure vanilla JavaScript implementation
-         */
         (function() {
             'use strict';
 
             // ========== Name Data Banks ==========
             const nameData = {
-                // Fun category word banks
                 fun: {
                     adjectives: [
                         'Sparkly', 'Bouncy', 'Giggly', 'Wiggly', 'Zippy', 'Snappy',
@@ -680,35 +894,13 @@
                         'Mega', 'Super', 'Ultra', 'Hyper', 'Epic', 'Awesome'
                     ],
                     nouns: {
-                        project: [
-                            'Rocket', 'Unicorn', 'Panda', 'Phoenix', 'Thunder', 'Comet',
-                            'Spark', 'Blitz', 'Flash', 'Zoom', 'Whoosh', 'Dash',
-                            'Pixel', 'Ninja', 'Wizard', 'Dynamo', 'Bolt', 'Wave'
-                        ],
-                        team: [
-                            'Pandas', 'Ninjas', 'Vikings', 'Pirates', 'Wizards', 'Dragons',
-                            'Rockets', 'Comets', 'Thunders', 'Legends', 'Champions', 'Titans',
-                            'Mavericks', 'Rebels', 'Rascals', 'Bandits', 'Squad', 'Crew'
-                        ],
-                        pet: [
-                            'Biscuit', 'Noodle', 'Pickle', 'Muffin', 'Waffles', 'Nugget',
-                            'Taco', 'Nacho', 'Pretzel', 'Cookie', 'Cupcake', 'Sprout',
-                            'Beans', 'Pebbles', 'Buttons', 'Bubbles', 'Snickers', 'Oreo'
-                        ],
-                        startup: [
-                            'Labs', 'Hub', 'Box', 'Spot', 'Pop', 'Snap',
-                            'Buzz', 'Fizz', 'Zip', 'Tap', 'Flip', 'Skip',
-                            'Loop', 'Boom', 'Dash', 'Spark', 'Hive', 'Nest'
-                        ],
-                        character: [
-                            'McFunface', 'Sparkleton', 'Wigglesworth', 'Bumblebee', 'Doodlebug',
-                            'Snickerdoodle', 'Fizzlepop', 'Wobblekins', 'Gigglesnort', 'Bumblefuzz',
-                            'Noodleheimer', 'Wafflebottom', 'Pickleberry', 'Sprocket', 'Gadget'
-                        ]
+                        project: ['Rocket', 'Unicorn', 'Panda', 'Phoenix', 'Thunder', 'Comet', 'Spark', 'Blitz', 'Flash', 'Zoom', 'Whoosh', 'Dash', 'Pixel', 'Ninja', 'Wizard', 'Dynamo', 'Bolt', 'Wave'],
+                        team: ['Pandas', 'Ninjas', 'Vikings', 'Pirates', 'Wizards', 'Dragons', 'Rockets', 'Comets', 'Thunders', 'Legends', 'Champions', 'Titans', 'Mavericks', 'Rebels', 'Rascals', 'Bandits', 'Squad', 'Crew'],
+                        pet: ['Biscuit', 'Noodle', 'Pickle', 'Muffin', 'Waffles', 'Nugget', 'Taco', 'Nacho', 'Pretzel', 'Cookie', 'Cupcake', 'Sprout', 'Beans', 'Pebbles', 'Buttons', 'Bubbles', 'Snickers', 'Oreo'],
+                        startup: ['Labs', 'Hub', 'Box', 'Spot', 'Pop', 'Snap', 'Buzz', 'Fizz', 'Zip', 'Tap', 'Flip', 'Skip', 'Loop', 'Boom', 'Dash', 'Spark', 'Hive', 'Nest'],
+                        character: ['McFunface', 'Sparkleton', 'Wigglesworth', 'Bumblebee', 'Doodlebug', 'Snickerdoodle', 'Fizzlepop', 'Wobblekins', 'Gigglesnort', 'Bumblefuzz', 'Noodleheimer', 'Wafflebottom', 'Pickleberry', 'Sprocket', 'Gadget']
                     }
                 },
-
-                // Professional category word banks
                 professional: {
                     adjectives: [
                         'Prime', 'Core', 'Elite', 'Peak', 'Apex', 'Summit',
@@ -718,35 +910,13 @@
                         'United', 'Allied', 'Unified', 'Synergy', 'Horizon', 'Vertex'
                     ],
                     nouns: {
-                        project: [
-                            'Initiative', 'Endeavor', 'Venture', 'Catalyst', 'Keystone', 'Cornerstone',
-                            'Framework', 'Blueprint', 'Pathway', 'Gateway', 'Beacon', 'Compass',
-                            'Vector', 'Matrix', 'Nexus', 'Axis', 'Orbit', 'Summit'
-                        ],
-                        team: [
-                            'Collective', 'Alliance', 'Coalition', 'Syndicate', 'Consortium', 'Guild',
-                            'Associates', 'Partners', 'Advisors', 'Consultants', 'Specialists', 'Experts',
-                            'Architects', 'Strategists', 'Pioneers', 'Visionaries', 'Innovators', 'Leaders'
-                        ],
-                        pet: [
-                            'Sterling', 'Maxwell', 'Winston', 'Theodore', 'Benedict', 'Montgomery',
-                            'Reginald', 'Archibald', 'Cornelius', 'Sebastian', 'Bartholomew', 'Wellington',
-                            'Chester', 'Remington', 'Bradford', 'Hamilton', 'Preston', 'Carlton'
-                        ],
-                        startup: [
-                            'Systems', 'Solutions', 'Technologies', 'Dynamics', 'Analytics', 'Insights',
-                            'Ventures', 'Capital', 'Partners', 'Group', 'Labs', 'Works',
-                            'Logic', 'Metrics', 'Bridge', 'Link', 'Cloud', 'Stack'
-                        ],
-                        character: [
-                            'Blackwood', 'Ashford', 'Sterling', 'Whitmore', 'Pemberton', 'Thornton',
-                            'Crawford', 'Hastings', 'Kensington', 'Langley', 'Mercer', 'Prescott',
-                            'Remington', 'Sinclair', 'Wentworth', 'Ashworth', 'Beaumont', 'Carlisle'
-                        ]
+                        project: ['Initiative', 'Endeavor', 'Venture', 'Catalyst', 'Keystone', 'Cornerstone', 'Framework', 'Blueprint', 'Pathway', 'Gateway', 'Beacon', 'Compass', 'Vector', 'Matrix', 'Nexus', 'Axis', 'Orbit', 'Summit'],
+                        team: ['Collective', 'Alliance', 'Coalition', 'Syndicate', 'Consortium', 'Guild', 'Associates', 'Partners', 'Advisors', 'Consultants', 'Specialists', 'Experts', 'Architects', 'Strategists', 'Pioneers', 'Visionaries', 'Innovators', 'Leaders'],
+                        pet: ['Sterling', 'Maxwell', 'Winston', 'Theodore', 'Benedict', 'Montgomery', 'Reginald', 'Archibald', 'Cornelius', 'Sebastian', 'Bartholomew', 'Wellington', 'Chester', 'Remington', 'Bradford', 'Hamilton', 'Preston', 'Carlton'],
+                        startup: ['Systems', 'Solutions', 'Technologies', 'Dynamics', 'Analytics', 'Insights', 'Ventures', 'Capital', 'Partners', 'Group', 'Labs', 'Works', 'Logic', 'Metrics', 'Bridge', 'Link', 'Cloud', 'Stack'],
+                        character: ['Blackwood', 'Ashford', 'Sterling', 'Whitmore', 'Pemberton', 'Thornton', 'Crawford', 'Hastings', 'Kensington', 'Langley', 'Mercer', 'Prescott', 'Remington', 'Sinclair', 'Wentworth', 'Ashworth', 'Beaumont', 'Carlisle']
                     }
                 },
-
-                // Fantasy category word banks
                 fantasy: {
                     adjectives: [
                         'Mystic', 'Arcane', 'Ethereal', 'Celestial', 'Enchanted', 'Mythical',
@@ -756,70 +926,79 @@
                         'Twilight', 'Dawn', 'Storm', 'Frost', 'Flame', 'Thunder'
                     ],
                     nouns: {
-                        project: [
-                            'Chronicle', 'Saga', 'Quest', 'Odyssey', 'Prophecy', 'Legacy',
-                            'Dominion', 'Sanctum', 'Citadel', 'Realm', 'Kingdom', 'Empire',
-                            'Covenant', 'Conclave', 'Grimoire', 'Artifact', 'Relic', 'Tome'
-                        ],
-                        team: [
-                            'Order', 'Brotherhood', 'Fellowship', 'Legion', 'Covenant', 'Circle',
-                            'Guardians', 'Sentinels', 'Wardens', 'Keepers', 'Champions', 'Knights',
-                            'Rangers', 'Paladins', 'Sorcerers', 'Mages', 'Seekers', 'Hunters'
-                        ],
-                        pet: [
-                            'Shadowfax', 'Stormwind', 'Nightshade', 'Moonbeam', 'Starfire', 'Frostbite',
-                            'Ember', 'Zephyr', 'Phoenix', 'Griffin', 'Raven', 'Onyx',
-                            'Mystic', 'Oracle', 'Sage', 'Spirit', 'Whisper', 'Echo'
-                        ],
-                        startup: [
-                            'Forge', 'Sanctum', 'Citadel', 'Bastion', 'Haven', 'Nexus',
-                            'Spire', 'Tower', 'Vault', 'Archive', 'Council', 'Guild',
-                            'Realm', 'Domain', 'Chronicle', 'Codex', 'Aegis', 'Aether'
-                        ],
-                        character: [
-                            'Shadowmere', 'Stormborn', 'Nightingale', 'Ravencrest', 'Ironforge', 'Dragonbane',
-                            'Moonwhisper', 'Starweaver', 'Flameheart', 'Frostwind', 'Thunderstrike', 'Darkhollow',
-                            'Brightblade', 'Silversong', 'Goldenmist', 'Crystalvein', 'Stoneguard', 'Skywarden'
-                        ]
+                        project: ['Chronicle', 'Saga', 'Quest', 'Odyssey', 'Prophecy', 'Legacy', 'Dominion', 'Sanctum', 'Citadel', 'Realm', 'Kingdom', 'Empire', 'Covenant', 'Conclave', 'Grimoire', 'Artifact', 'Relic', 'Tome'],
+                        team: ['Order', 'Brotherhood', 'Fellowship', 'Legion', 'Covenant', 'Circle', 'Guardians', 'Sentinels', 'Wardens', 'Keepers', 'Champions', 'Knights', 'Rangers', 'Paladins', 'Sorcerers', 'Mages', 'Seekers', 'Hunters'],
+                        pet: ['Shadowfax', 'Stormwind', 'Nightshade', 'Moonbeam', 'Starfire', 'Frostbite', 'Ember', 'Zephyr', 'Phoenix', 'Griffin', 'Raven', 'Onyx', 'Mystic', 'Oracle', 'Sage', 'Spirit', 'Whisper', 'Echo'],
+                        startup: ['Forge', 'Sanctum', 'Citadel', 'Bastion', 'Haven', 'Nexus', 'Spire', 'Tower', 'Vault', 'Archive', 'Council', 'Guild', 'Realm', 'Domain', 'Chronicle', 'Codex', 'Aegis', 'Aether'],
+                        character: ['Shadowmere', 'Stormborn', 'Nightingale', 'Ravencrest', 'Ironforge', 'Dragonbane', 'Moonwhisper', 'Starweaver', 'Flameheart', 'Frostwind', 'Thunderstrike', 'Darkhollow', 'Brightblade', 'Silversong', 'Goldenmist', 'Crystalvein', 'Stoneguard', 'Skywarden']
                     }
                 }
             };
 
+            // Placeholder data
+            const placeholderData = {
+                items: ['Widget A', 'Gadget B', 'Component X', 'Module Y', 'Part Z', 'Unit Alpha', 'Device Beta', 'Item Gamma', 'Object Delta', 'Thing Epsilon'],
+                users: ['John Smith', 'Jane Doe', 'Bob Johnson', 'Alice Williams', 'Charlie Brown', 'Diana Prince', 'Edward Norton', 'Fiona Apple', 'George Lucas', 'Helen Troy'],
+                tasks: ['Review documents', 'Update database', 'Send report', 'Schedule meeting', 'Fix bug #123', 'Write tests', 'Deploy update', 'Review PR', 'Update docs', 'Refactor code'],
+                products: ['Basic Plan', 'Pro Subscription', 'Enterprise License', 'Starter Kit', 'Premium Bundle', 'Annual Pass', 'Team Package', 'Individual Access', 'Family Plan', 'Student Discount']
+            };
+
             // ========== DOM References ==========
+            const modeTabs = document.querySelectorAll('.mode-tab');
+            const modeSections = document.querySelectorAll('.mode-section');
+            const toast = document.getElementById('toast');
+
+            // Names mode
             const categoryCards = document.querySelectorAll('.category-card');
-            const typePills = document.querySelectorAll('.type-pill');
+            const typePills = document.querySelectorAll('.type-pill[data-type]');
             const countDisplay = document.getElementById('countDisplay');
             const decreaseBtn = document.getElementById('decreaseBtn');
             const increaseBtn = document.getElementById('increaseBtn');
-            const generateBtn = document.getElementById('generateBtn');
-            const regenerateBtn = document.getElementById('regenerateBtn');
-            const resultsSection = document.getElementById('resultsSection');
+            const generateNamesBtn = document.getElementById('generateNamesBtn');
+            const regenerateNamesBtn = document.getElementById('regenerateNamesBtn');
+            const namesResults = document.getElementById('namesResults');
             const namesGrid = document.getElementById('namesGrid');
-            const copyAllBtn = document.getElementById('copyAllBtn');
-            const toast = document.getElementById('toast');
+            const copyAllNamesBtn = document.getElementById('copyAllNamesBtn');
+
+            // Teams mode
+            const teamNamesInput = document.getElementById('teamNamesInput');
+            const teamsCountDisplay = document.getElementById('teamsCountDisplay');
+            const decreaseTeamsBtn = document.getElementById('decreaseTeamsBtn');
+            const increaseTeamsBtn = document.getElementById('increaseTeamsBtn');
+            const generateTeamsBtn = document.getElementById('generateTeamsBtn');
+            const reshuffleTeamsBtn = document.getElementById('reshuffleTeamsBtn');
+            const teamsResults = document.getElementById('teamsResults');
+            const teamsGrid = document.getElementById('teamsGrid');
+            const copyAllTeamsBtn = document.getElementById('copyAllTeamsBtn');
+
+            // Placeholders mode
+            const placeholderPills = document.querySelectorAll('.type-pill[data-placeholder]');
+            const placeholdersCountDisplay = document.getElementById('placeholdersCountDisplay');
+            const decreasePlaceholdersBtn = document.getElementById('decreasePlaceholdersBtn');
+            const increasePlaceholdersBtn = document.getElementById('increasePlaceholdersBtn');
+            const generatePlaceholdersBtn = document.getElementById('generatePlaceholdersBtn');
+            const regeneratePlaceholdersBtn = document.getElementById('regeneratePlaceholdersBtn');
+            const placeholdersResults = document.getElementById('placeholdersResults');
+            const placeholdersGrid = document.getElementById('placeholdersGrid');
+            const copyAllPlaceholdersBtn = document.getElementById('copyAllPlaceholdersBtn');
 
             // State
             let currentCategory = 'fun';
             let currentType = 'project';
             let nameCount = 5;
             let generatedNames = [];
+            let teamsCount = 2;
+            let generatedTeams = [];
+            let currentPlaceholderType = 'items';
+            let placeholdersCount = 5;
+            let generatedPlaceholders = [];
 
             // ========== Utility Functions ==========
 
-            /**
-             * Get random item from array
-             * @param {array} arr - Array to pick from
-             * @returns {*} Random item
-             */
             function getRandomItem(arr) {
                 return arr[Math.floor(Math.random() * arr.length)];
             }
 
-            /**
-             * Shuffle array using Fisher-Yates
-             * @param {array} arr - Array to shuffle
-             * @returns {array} Shuffled array
-             */
             function shuffleArray(arr) {
                 const shuffled = [...arr];
                 for (let i = shuffled.length - 1; i > 0; i--) {
@@ -829,99 +1008,17 @@
                 return shuffled;
             }
 
-            /**
-             * Generate a single name based on category and type
-             * @param {string} category - Name category
-             * @param {string} type - Name type
-             * @returns {string} Generated name
-             */
-            function generateSingleName(category, type) {
-                const data = nameData[category];
-                const adjective = getRandomItem(data.adjectives);
-                const noun = getRandomItem(data.nouns[type]);
-
-                // Different combination patterns based on type
-                const patterns = {
-                    project: [
-                        `${adjective} ${noun}`,
-                        `Project ${noun}`,
-                        `${noun} ${adjective}`,
-                        `The ${adjective} ${noun}`,
-                        `Operation ${noun}`
-                    ],
-                    team: [
-                        `The ${adjective} ${noun}`,
-                        `${adjective} ${noun}`,
-                        `Team ${noun}`,
-                        `The ${noun}`,
-                        `${noun} United`
-                    ],
-                    pet: [
-                        `${noun}`,
-                        `${adjective}`,
-                        `${adjective} ${noun}`,
-                        `Little ${noun}`,
-                        `Sir ${noun}`
-                    ],
-                    startup: [
-                        `${adjective}${noun}`,
-                        `${noun}ly`,
-                        `${adjective} ${noun}`,
-                        `${noun}.io`,
-                        `Go${noun}`
-                    ],
-                    character: [
-                        `${adjective} ${noun}`,
-                        `${noun} the ${adjective}`,
-                        `${adjective}${noun}`,
-                        `Lord ${noun}`,
-                        `${noun} ${adjective}heart`
-                    ]
-                };
-
-                return getRandomItem(patterns[type]);
-            }
-
-            /**
-             * Generate multiple unique names
-             * @param {number} count - Number of names to generate
-             * @returns {array} Array of unique names
-             */
-            function generateNames(count) {
-                const names = new Set();
-                let attempts = 0;
-                const maxAttempts = count * 10;
-
-                while (names.size < count && attempts < maxAttempts) {
-                    names.add(generateSingleName(currentCategory, currentType));
-                    attempts++;
-                }
-
-                return Array.from(names);
-            }
-
-            /**
-             * Show toast notification
-             * @param {string} message - Message to display
-             */
             function showToast(message) {
                 toast.textContent = message;
                 toast.classList.add('show');
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 2000);
+                setTimeout(() => toast.classList.remove('show'), 2000);
             }
 
-            /**
-             * Copy text to clipboard
-             * @param {string} text - Text to copy
-             */
             async function copyToClipboard(text) {
                 try {
                     await navigator.clipboard.writeText(text);
-                    showToast(`✓ Copied: ${text}`);
+                    showToast(`✓ Copied!`);
                 } catch (err) {
-                    // Fallback
                     const textarea = document.createElement('textarea');
                     textarea.value = text;
                     document.body.appendChild(textarea);
@@ -932,14 +1029,49 @@
                 }
             }
 
-            /**
-             * Render generated names to DOM
-             * @param {array} names - Array of names
-             */
+            // ========== Mode Switching ==========
+
+            modeTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const mode = tab.dataset.mode;
+                    modeTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    modeSections.forEach(s => s.classList.remove('active'));
+                    document.getElementById(`${mode}Section`).classList.add('active');
+                });
+            });
+
+            // ========== Names Mode Functions ==========
+
+            function generateSingleName(category, type) {
+                const data = nameData[category];
+                const adjective = getRandomItem(data.adjectives);
+                const noun = getRandomItem(data.nouns[type]);
+
+                const patterns = {
+                    project: [`${adjective} ${noun}`, `Project ${noun}`, `${noun} ${adjective}`, `The ${adjective} ${noun}`, `Operation ${noun}`],
+                    team: [`The ${adjective} ${noun}`, `${adjective} ${noun}`, `Team ${noun}`, `The ${noun}`, `${noun} United`],
+                    pet: [`${noun}`, `${adjective}`, `${adjective} ${noun}`, `Little ${noun}`, `Sir ${noun}`],
+                    startup: [`${adjective}${noun}`, `${noun}ly`, `${adjective} ${noun}`, `${noun}.io`, `Go${noun}`],
+                    character: [`${adjective} ${noun}`, `${noun} the ${adjective}`, `${adjective}${noun}`, `Lord ${noun}`, `${noun} ${adjective}heart`]
+                };
+
+                return getRandomItem(patterns[type]);
+            }
+
+            function generateNames(count) {
+                const names = new Set();
+                let attempts = 0;
+                while (names.size < count && attempts < count * 10) {
+                    names.add(generateSingleName(currentCategory, currentType));
+                    attempts++;
+                }
+                return Array.from(names);
+            }
+
             function renderNames(names) {
                 generatedNames = names;
                 namesGrid.innerHTML = '';
-
                 names.forEach((name, index) => {
                     const card = document.createElement('div');
                     card.className = 'name-card';
@@ -948,32 +1080,17 @@
                             <span class="name-index">${index + 1}</span>
                             <span class="name-text">${name}</span>
                         </div>
-                        <button class="btn-copy-name" data-name="${name}">Copy</button>
+                        <button class="btn-copy-name">Copy</button>
                     `;
-
-                    // Copy button handler
                     card.querySelector('.btn-copy-name').addEventListener('click', (e) => {
                         e.stopPropagation();
                         copyToClipboard(name);
                     });
-
-                    // Card click handler
-                    card.addEventListener('click', () => {
-                        copyToClipboard(name);
-                    });
-
+                    card.addEventListener('click', () => copyToClipboard(name));
                     namesGrid.appendChild(card);
                 });
-
-                resultsSection.classList.add('show');
-
-                // Scroll to results
-                setTimeout(() => {
-                    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }, 100);
+                namesResults.classList.add('show');
             }
-
-            // ========== Event Listeners ==========
 
             // Category selection
             categoryCards.forEach(card => {
@@ -995,42 +1112,144 @@
 
             // Number controls
             decreaseBtn.addEventListener('click', () => {
-                if (nameCount > 1) {
-                    nameCount--;
-                    countDisplay.textContent = nameCount;
-                }
+                if (nameCount > 1) { nameCount--; countDisplay.textContent = nameCount; }
             });
-
             increaseBtn.addEventListener('click', () => {
-                if (nameCount < 20) {
-                    nameCount++;
-                    countDisplay.textContent = nameCount;
-                }
+                if (nameCount < 20) { nameCount++; countDisplay.textContent = nameCount; }
             });
 
-            // Generate button
-            generateBtn.addEventListener('click', () => {
-                const names = generateNames(nameCount);
-                renderNames(names);
-            });
-
-            // Regenerate button
-            regenerateBtn.addEventListener('click', () => {
-                const names = generateNames(nameCount);
-                renderNames(names);
-            });
-
-            // Copy all button
-            copyAllBtn.addEventListener('click', () => {
-                const allNames = generatedNames.join('\n');
-                copyToClipboard(allNames);
+            // Generate
+            generateNamesBtn.addEventListener('click', () => renderNames(generateNames(nameCount)));
+            regenerateNamesBtn.addEventListener('click', () => renderNames(generateNames(nameCount)));
+            copyAllNamesBtn.addEventListener('click', () => {
+                copyToClipboard(generatedNames.join('\n'));
                 showToast('✓ All names copied!');
             });
 
+            // ========== Teams Mode Functions ==========
+
+            function assignTeams() {
+                const input = teamNamesInput.value.trim();
+                if (!input) {
+                    showToast('⚠️ Please enter some names');
+                    return;
+                }
+
+                const names = input.split('\n').map(n => n.trim()).filter(n => n.length > 0);
+                if (names.length < teamsCount) {
+                    showToast(`⚠️ Need at least ${teamsCount} names`);
+                    return;
+                }
+
+                const shuffled = shuffleArray(names);
+                const teams = Array.from({ length: teamsCount }, () => []);
+                
+                shuffled.forEach((name, i) => {
+                    teams[i % teamsCount].push(name);
+                });
+
+                generatedTeams = teams;
+                renderTeams(teams);
+            }
+
+            function renderTeams(teams) {
+                const teamEmojis = ['🔴', '🔵', '🟢', '🟡', '🟣', '🟠', '⚪', '🟤'];
+                teamsGrid.innerHTML = '';
+                
+                teams.forEach((members, i) => {
+                    const group = document.createElement('div');
+                    group.className = 'team-group';
+                    group.innerHTML = `
+                        <div class="team-group-header">
+                            <span class="team-group-name">${teamEmojis[i % teamEmojis.length]} Team ${i + 1}</span>
+                            <span class="team-group-count">${members.length} members</span>
+                        </div>
+                        ${members.map(m => `<div class="team-member">• ${m}</div>`).join('')}
+                    `;
+                    group.addEventListener('click', () => copyToClipboard(`Team ${i + 1}:\n${members.join('\n')}`));
+                    teamsGrid.appendChild(group);
+                });
+                
+                teamsResults.classList.add('show');
+            }
+
+            decreaseTeamsBtn.addEventListener('click', () => {
+                if (teamsCount > 2) { teamsCount--; teamsCountDisplay.textContent = teamsCount; }
+            });
+            increaseTeamsBtn.addEventListener('click', () => {
+                if (teamsCount < 10) { teamsCount++; teamsCountDisplay.textContent = teamsCount; }
+            });
+
+            generateTeamsBtn.addEventListener('click', assignTeams);
+            reshuffleTeamsBtn.addEventListener('click', assignTeams);
+            copyAllTeamsBtn.addEventListener('click', () => {
+                const text = generatedTeams.map((t, i) => `Team ${i + 1}:\n${t.join('\n')}`).join('\n\n');
+                copyToClipboard(text);
+                showToast('✓ All teams copied!');
+            });
+
+            // ========== Placeholders Mode Functions ==========
+
+            function generatePlaceholders(count) {
+                const baseItems = placeholderData[currentPlaceholderType];
+                const items = [];
+                for (let i = 0; i < count; i++) {
+                    if (i < baseItems.length) {
+                        items.push(baseItems[i]);
+                    } else {
+                        items.push(`${baseItems[i % baseItems.length]} ${Math.floor(i / baseItems.length) + 1}`);
+                    }
+                }
+                return shuffleArray(items).slice(0, count);
+            }
+
+            function renderPlaceholders(items) {
+                generatedPlaceholders = items;
+                placeholdersGrid.innerHTML = '';
+                items.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'name-card';
+                    card.innerHTML = `
+                        <div class="name-info">
+                            <span class="name-index">${index + 1}</span>
+                            <span class="name-text">${item}</span>
+                        </div>
+                        <button class="btn-copy-name">Copy</button>
+                    `;
+                    card.querySelector('.btn-copy-name').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        copyToClipboard(item);
+                    });
+                    card.addEventListener('click', () => copyToClipboard(item));
+                    placeholdersGrid.appendChild(card);
+                });
+                placeholdersResults.classList.add('show');
+            }
+
+            placeholderPills.forEach(pill => {
+                pill.addEventListener('click', () => {
+                    placeholderPills.forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    currentPlaceholderType = pill.dataset.placeholder;
+                });
+            });
+
+            decreasePlaceholdersBtn.addEventListener('click', () => {
+                if (placeholdersCount > 1) { placeholdersCount--; placeholdersCountDisplay.textContent = placeholdersCount; }
+            });
+            increasePlaceholdersBtn.addEventListener('click', () => {
+                if (placeholdersCount < 20) { placeholdersCount++; placeholdersCountDisplay.textContent = placeholdersCount; }
+            });
+
+            generatePlaceholdersBtn.addEventListener('click', () => renderPlaceholders(generatePlaceholders(placeholdersCount)));
+            regeneratePlaceholdersBtn.addEventListener('click', () => renderPlaceholders(generatePlaceholders(placeholdersCount)));
+            copyAllPlaceholdersBtn.addEventListener('click', () => {
+                copyToClipboard(generatedPlaceholders.join('\n'));
+                showToast('✓ All items copied!');
+            });
+
             // ========== Initialize ==========
-            // Generate initial names on load
-            const initialNames = generateNames(nameCount);
-            renderNames(initialNames);
+            renderNames(generateNames(nameCount));
 
         })();
     </script>

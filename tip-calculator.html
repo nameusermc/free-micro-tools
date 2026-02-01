@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Simple tip calculator - Calculate tips and split bills easily">
-    <title>Tip Calculator | Split Bills Easily</title>
+    <meta name="description" content="Free Tip Calculator - Calculate tips and split bills easily at restaurants. Choose custom tip percentages, divide among multiple people, and see per-person totals instantly.">
+    <meta name="keywords" content="tip calculator, bill splitter, restaurant tip, gratuity calculator, split bill calculator">
+    <link rel="canonical" href="https://free-micro-tools.vercel.app/tip-calculator.html">
+    <title>Tip Calculator — Free Bill Splitting Tool | Free Micro Tools</title>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Tip Calculator",
+        "description": "Calculate tips and split bills easily at restaurants with custom tip percentages",
+        "url": "https://free-micro-tools.vercel.app/tip-calculator.html",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
     <style>
         /* ========== CSS Reset & Base Styles ========== */
         *, *::before, *::after {
@@ -94,17 +114,38 @@
             position: relative;
         }
 
-        .input-prefix, .input-suffix {
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group .input-prefix {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.875rem 0.75rem;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .input-group input[type="number"] {
+            border-radius: 0 8px 8px 0;
+        }
+
+        .input-suffix {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
             font-weight: 500;
             pointer-events: none;
+            right: 1rem;
         }
-
-        .input-prefix { left: 1rem; }
-        .input-suffix { right: 1rem; }
 
         input[type="number"] {
             width: 100%;
@@ -128,7 +169,15 @@
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        .input-with-prefix { padding-left: 2rem; }
+        .input-group input[type="number"]:focus {
+            position: relative;
+            z-index: 1;
+        }
+
+        .input-group:focus-within .input-prefix {
+            border-color: var(--primary);
+        }
+
         .input-with-suffix { padding-right: 2.5rem; }
 
         .input-hint {
@@ -349,12 +398,11 @@
                 <!-- Bill Amount Input -->
                 <div class="form-group">
                     <label for="billAmount">Bill Amount</label>
-                    <div class="input-wrapper">
+                    <div class="input-group">
                         <span class="input-prefix">$</span>
                         <input 
                             type="number" 
                             id="billAmount" 
-                            class="input-with-prefix"
                             placeholder="0.00" 
                             min="0" 
                             step="0.01"

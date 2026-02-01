@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free word counter, character counter, and reading time estimator tool">
-    <title>Word & Character Counter | Reading Time Estimator</title>
+    <meta name="description" content="Free Word Counter - Count words, characters, sentences, paragraphs, and lines instantly. Get reading time estimates and keyword density analysis for writers and content creators.">
+    <meta name="keywords" content="word counter, character counter, reading time calculator, text analyzer, keyword density, content writing tool">
+    <link rel="canonical" href="https://free-micro-tools.vercel.app/word-counter.html">
+    <title>Word Counter — Free Character & Reading Time Tool | Free Micro Tools</title>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Word Counter",
+        "description": "Count words, characters, sentences with reading time estimates and keyword analysis",
+        "url": "https://free-micro-tools.vercel.app/word-counter.html",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
     <style>
         /* ========== CSS Reset & Variables ========== */
         *, *::before, *::after {
@@ -472,6 +492,10 @@ The counter will update automatically as you type!"
                     <span>Paragraphs: <strong id="paragraphCount">0</strong></span>
                 </div>
                 <div class="extra-stat">
+                    <span>📃</span>
+                    <span>Lines: <strong id="lineCount">0</strong></span>
+                </div>
+                <div class="extra-stat">
                     <span>🔡</span>
                     <span>No spaces: <strong id="charNoSpaces">0</strong></span>
                 </div>
@@ -509,6 +533,7 @@ The counter will update automatically as you type!"
                     <li>Stats update <strong>automatically</strong> in real-time</li>
                     <li><strong>Word count:</strong> Total words in your text</li>
                     <li><strong>Character count:</strong> All characters including spaces</li>
+                    <li><strong>Lines, sentences, paragraphs:</strong> Detailed text structure</li>
                     <li><strong>Read time:</strong> Estimated time at 200 words/minute</li>
                     <li>Use <strong>Copy</strong> to copy text or <strong>Clear</strong> to start fresh</li>
                 </ul>
@@ -553,6 +578,7 @@ The counter will update automatically as you type!"
             const readTimeEl = document.getElementById('readTime');
             const sentenceCountEl = document.getElementById('sentenceCount');
             const paragraphCountEl = document.getElementById('paragraphCount');
+            const lineCountEl = document.getElementById('lineCount');
             const charNoSpacesEl = document.getElementById('charNoSpaces');
             const speakTimeEl = document.getElementById('speakTime');
             const copyBtn = document.getElementById('copyBtn');
@@ -596,6 +622,17 @@ The counter will update automatically as you type!"
                 const paragraphs = trimmed.split(/\n\s*\n/).filter(p => p.trim().length > 0);
                 // If no double breaks, check for single content
                 return paragraphs.length || (trimmed.length > 0 ? 1 : 0);
+            }
+
+            /**
+             * Count lines in text
+             * @param {string} text - Input text
+             * @returns {number} Line count
+             */
+            function countLines(text) {
+                if (text === '') return 0;
+                // Split by line breaks and count
+                return text.split(/\r\n|\r|\n/).length;
             }
 
             /**
@@ -661,6 +698,7 @@ The counter will update automatically as you type!"
                 const charNoSpaces = text.replace(/\s/g, '').length;
                 const sentenceCount = countSentences(text);
                 const paragraphCount = countParagraphs(text);
+                const lineCount = countLines(text);
                 const readTime = formatReadTime(wordCount, CONFIG.READING_SPEED);
 
                 // Update DOM with animations for main stats
@@ -671,6 +709,7 @@ The counter will update automatically as you type!"
                 // Update secondary stats
                 sentenceCountEl.textContent = sentenceCount.toLocaleString();
                 paragraphCountEl.textContent = paragraphCount.toLocaleString();
+                lineCountEl.textContent = lineCount.toLocaleString();
                 charNoSpacesEl.textContent = charNoSpaces.toLocaleString();
                 speakTimeEl.textContent = formatSpeakTime(wordCount);
             }

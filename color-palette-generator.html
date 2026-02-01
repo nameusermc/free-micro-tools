@@ -3,8 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Free color palette generator - Create beautiful complementary color schemes instantly">
-    <title>Color Palette Generator | Free Color Scheme Tool</title>
+    <meta name="description" content="Free Color Palette Generator - Create beautiful harmonious color palettes. Generate complementary, analogous, triadic, and WCAG-accessible color schemes. Copy HEX, RGB, or HSL codes.">
+    <meta name="keywords" content="color palette generator, color scheme, complementary colors, color picker, hex color, rgb color, design tool">
+    <link rel="canonical" href="https://free-micro-tools.vercel.app/color-palette-generator.html">
+    <title>Color Palette Generator — Free Color Scheme Tool | Free Micro Tools</title>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Color Palette Generator",
+        "description": "Generate beautiful color palettes with complementary, analogous, and accessible schemes",
+        "url": "https://free-micro-tools.vercel.app/color-palette-generator.html",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
     <style>
         /* ========== CSS Reset & Variables ========== */
         *, *::before, *::after {
@@ -40,22 +60,6 @@
         .container {
             max-width: 640px;
             margin: 0 auto;
-        }
-
-        /* ========== Ad Placeholder ========== */
-        .ad-container {
-            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
-            border: 2px dashed #c4b5fd;
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-            margin-bottom: 1.5rem;
-            min-height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 0.875rem;
         }
 
         /* ========== Card Component ========== */
@@ -240,6 +244,13 @@
             gap: 0.5rem;
         }
 
+        .palette-type-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+
         .btn-randomize {
             padding: 0.5rem 1rem;
             border: 2px solid var(--border);
@@ -286,6 +297,7 @@
             width: 80px;
             height: 60px;
             flex-shrink: 0;
+            position: relative;
         }
 
         .swatch-info {
@@ -303,9 +315,36 @@
             text-transform: uppercase;
         }
 
+        .swatch-label {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
         .swatch-rgb {
             font-size: 0.75rem;
             color: var(--text-muted);
+        }
+
+        .swatch-contrast {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+            background: #f1f5f9;
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            margin-top: 0.125rem;
+        }
+
+        .swatch-contrast.pass {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .swatch-contrast.fail {
+            background: #fee2e2;
+            color: #991b1b;
         }
 
         .swatch-copy {
@@ -493,11 +532,11 @@
         <script async="async" data-cfasync="false" src="https://pl28621250.effectivegatecpm.com/d403dd911608318630226f132a1dc636/invoke.js"></script>
         <div id="container-d403dd911608318630226f132a1dc636"></div>
 
-<a href="index.html">← Back to Tools</a>
+        <a href="index.html">← Back to Tools</a>
 
         <!-- Tool Description -->
         <div class="tool-description">
-            <p>Generate beautiful, harmonious color palettes from any base color with this free browser-based tool. Supports multiple color harmony types and exports to CSS variables.</p>
+            <p>Generate beautiful, harmonious color palettes from any base color. Includes accessibility-friendly high-contrast pairs and exports to CSS variables.</p>
         </div>
 
         <!-- Main Tool Card -->
@@ -563,15 +602,30 @@
                         <span class="harmony-icon">▥</span>
                         Monochrome
                     </button>
+                    <button class="harmony-btn" data-harmony="contrast">
+                        <span class="harmony-icon">◑</span>
+                        Contrast
+                    </button>
+                    <button class="harmony-btn" data-harmony="accessible">
+                        <span class="harmony-icon">♿</span>
+                        Accessible
+                    </button>
+                    <button class="harmony-btn" data-harmony="vibrant">
+                        <span class="harmony-icon">✦</span>
+                        Vibrant
+                    </button>
                 </div>
             </div>
 
             <!-- Generated Palette -->
             <div class="palette-section">
                 <div class="palette-header">
-                    <h2 class="palette-title">
-                        <span>✨</span> Your Palette
-                    </h2>
+                    <div>
+                        <h2 class="palette-title">
+                            <span>✨</span> Your Palette
+                        </h2>
+                        <div class="palette-type-label" id="paletteTypeLabel">Complementary Colors</div>
+                    </div>
                     <button class="btn-randomize" id="randomizeBtn">
                         <span>🎲</span> Random
                     </button>
@@ -597,8 +651,8 @@
                 <ul>
                     <li><strong>Pick a color</strong> using the color wheel or enter a hex code</li>
                     <li><strong>Choose a harmony</strong> type to generate different color relationships</li>
+                    <li><strong>Contrast/Accessible</strong> modes create WCAG-friendly text pairs</li>
                     <li><strong>Click any swatch</strong> to copy its hex code</li>
-                    <li>Use <strong>Random</strong> to discover new color combinations</li>
                     <li><strong>Export CSS</strong> to get ready-to-use CSS variables</li>
                 </ul>
             </div>
@@ -620,11 +674,6 @@
     </div>
 
     <script>
-        /**
-         * Color Palette Generator
-         * Generates harmonious color palettes using color theory
-         * Pure vanilla JavaScript implementation
-         */
         (function() {
             'use strict';
 
@@ -632,6 +681,7 @@
             const colorPicker = document.getElementById('colorPicker');
             const hexInput = document.getElementById('hexInput');
             const paletteGrid = document.getElementById('paletteGrid');
+            const paletteTypeLabel = document.getElementById('paletteTypeLabel');
             const harmonyBtns = document.querySelectorAll('.harmony-btn');
             const randomizeBtn = document.getElementById('randomizeBtn');
             const copyAllBtn = document.getElementById('copyAllBtn');
@@ -642,13 +692,34 @@
             let currentHarmony = 'complementary';
             let currentPalette = [];
 
+            // Harmony descriptions
+            const harmonyLabels = {
+                complementary: 'Complementary (Opposites)',
+                analogous: 'Analogous Colors',
+                triadic: 'Triadic Colors',
+                split: 'Split-Complementary',
+                tetradic: 'Tetradic (Square)',
+                monochromatic: 'Monochromatic Shades',
+                contrast: 'High-Contrast Pairs',
+                accessible: 'Accessible (WCAG AA)',
+                vibrant: 'Vibrant Accents'
+            };
+
+            // Color role labels for each harmony
+            const colorLabels = {
+                complementary: ['Base', 'Opposite', 'Base Light', 'Opposite Light', 'Base Muted', 'Opposite Muted'],
+                analogous: ['Cool', 'Cool-Base', 'Base', 'Warm-Base', 'Warm', 'Neutral'],
+                triadic: ['Primary', 'Primary Light', 'Secondary', 'Secondary Light', 'Tertiary', 'Tertiary Light'],
+                split: ['Base', 'Base Light', 'Split 1', 'Split 1 Light', 'Split 2', 'Split 2 Light'],
+                tetradic: ['Color 1', 'Color 2', 'Color 3', 'Color 4', 'Neutral 1', 'Neutral 2'],
+                monochromatic: ['Darkest', 'Dark', 'Base', 'Light', 'Lighter', 'Lightest'],
+                contrast: ['Dark BG', 'Light Text', 'Light BG', 'Dark Text', 'Accent BG', 'Accent Text'],
+                accessible: ['Text Dark', 'BG Light', 'Text on Dark', 'BG Dark', 'Link Color', 'Link Hover'],
+                vibrant: ['Base', 'Vibrant 1', 'Vibrant 2', 'Vibrant 3', 'Dark', 'Light']
+            };
+
             // ========== Color Conversion Utilities ==========
 
-            /**
-             * Convert hex to RGB
-             * @param {string} hex - Hex color code
-             * @returns {object} RGB values
-             */
             function hexToRgb(hex) {
                 const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
                 return result ? {
@@ -658,13 +729,6 @@
                 } : { r: 0, g: 0, b: 0 };
             }
 
-            /**
-             * Convert RGB to hex
-             * @param {number} r - Red (0-255)
-             * @param {number} g - Green (0-255)
-             * @param {number} b - Blue (0-255)
-             * @returns {string} Hex color code
-             */
             function rgbToHex(r, g, b) {
                 return '#' + [r, g, b].map(x => {
                     const hex = Math.round(Math.max(0, Math.min(255, x))).toString(16);
@@ -672,18 +736,8 @@
                 }).join('');
             }
 
-            /**
-             * Convert RGB to HSL
-             * @param {number} r - Red (0-255)
-             * @param {number} g - Green (0-255)
-             * @param {number} b - Blue (0-255)
-             * @returns {object} HSL values
-             */
             function rgbToHsl(r, g, b) {
-                r /= 255;
-                g /= 255;
-                b /= 255;
-
+                r /= 255; g /= 255; b /= 255;
                 const max = Math.max(r, g, b);
                 const min = Math.min(r, g, b);
                 let h, s, l = (max + min) / 2;
@@ -693,31 +747,18 @@
                 } else {
                     const d = max - min;
                     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
                     switch (max) {
                         case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
                         case g: h = ((b - r) / d + 2) / 6; break;
                         case b: h = ((r - g) / d + 4) / 6; break;
                     }
                 }
-
                 return { h: h * 360, s: s * 100, l: l * 100 };
             }
 
-            /**
-             * Convert HSL to RGB
-             * @param {number} h - Hue (0-360)
-             * @param {number} s - Saturation (0-100)
-             * @param {number} l - Lightness (0-100)
-             * @returns {object} RGB values
-             */
             function hslToRgb(h, s, l) {
-                h /= 360;
-                s /= 100;
-                l /= 100;
-
+                h /= 360; s /= 100; l /= 100;
                 let r, g, b;
-
                 if (s === 0) {
                     r = g = b = l;
                 } else {
@@ -729,75 +770,72 @@
                         if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
                         return p;
                     };
-
                     const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
                     const p = 2 * l - q;
                     r = hue2rgb(p, q, h + 1/3);
                     g = hue2rgb(p, q, h);
                     b = hue2rgb(p, q, h - 1/3);
                 }
-
-                return {
-                    r: Math.round(r * 255),
-                    g: Math.round(g * 255),
-                    b: Math.round(b * 255)
-                };
+                return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
             }
 
-            /**
-             * Convert hex to HSL
-             * @param {string} hex - Hex color code
-             * @returns {object} HSL values
-             */
             function hexToHsl(hex) {
                 const rgb = hexToRgb(hex);
                 return rgbToHsl(rgb.r, rgb.g, rgb.b);
             }
 
-            /**
-             * Convert HSL to hex
-             * @param {number} h - Hue (0-360)
-             * @param {number} s - Saturation (0-100)
-             * @param {number} l - Lightness (0-100)
-             * @returns {string} Hex color code
-             */
             function hslToHex(h, s, l) {
                 const rgb = hslToRgb(h, s, l);
                 return rgbToHex(rgb.r, rgb.g, rgb.b);
             }
 
-            // ========== Palette Generation Algorithms ==========
-
-            /**
-             * Normalize hue to 0-360 range
-             * @param {number} hue - Hue value
-             * @returns {number} Normalized hue
-             */
             function normalizeHue(hue) {
                 return ((hue % 360) + 360) % 360;
             }
 
-            /**
-             * Generate complementary palette
-             * @param {object} hsl - Base color in HSL
-             * @returns {array} Array of hex colors
-             */
+            // ========== Contrast Calculation (WCAG) ==========
+
+            function getLuminance(r, g, b) {
+                const [rs, gs, bs] = [r, g, b].map(c => {
+                    c /= 255;
+                    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+                });
+                return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+            }
+
+            function getContrastRatio(hex1, hex2) {
+                const rgb1 = hexToRgb(hex1);
+                const rgb2 = hexToRgb(hex2);
+                const l1 = getLuminance(rgb1.r, rgb1.g, rgb1.b);
+                const l2 = getLuminance(rgb2.r, rgb2.g, rgb2.b);
+                const lighter = Math.max(l1, l2);
+                const darker = Math.min(l1, l2);
+                return (lighter + 0.05) / (darker + 0.05);
+            }
+
+            function meetsWCAG_AA(hex1, hex2) {
+                return getContrastRatio(hex1, hex2) >= 4.5;
+            }
+
+            function meetsWCAG_AAA(hex1, hex2) {
+                return getContrastRatio(hex1, hex2) >= 7;
+            }
+
+            // ========== Palette Generation ==========
+
             function generateComplementary(hsl) {
+                // True complement uses 180° hue rotation (e.g., green→red, blue→orange)
+                const complementHue = normalizeHue(hsl.h + 180);
                 return [
-                    hslToHex(hsl.h, hsl.s, hsl.l),
-                    hslToHex(hsl.h, hsl.s * 0.7, Math.min(hsl.l + 15, 90)),
-                    hslToHex(hsl.h, hsl.s * 0.5, Math.min(hsl.l + 30, 95)),
-                    hslToHex(normalizeHue(hsl.h + 180), hsl.s, hsl.l),
-                    hslToHex(normalizeHue(hsl.h + 180), hsl.s * 0.7, Math.min(hsl.l + 15, 90)),
-                    hslToHex(normalizeHue(hsl.h + 180), hsl.s * 0.5, Math.min(hsl.l + 30, 95))
+                    hslToHex(hsl.h, hsl.s, hsl.l),                                           // Base
+                    hslToHex(complementHue, hsl.s, hsl.l),                                   // Opposite (TRUE 180° complement)
+                    hslToHex(hsl.h, hsl.s * 0.75, Math.min(hsl.l + 15, 88)),                // Base Light
+                    hslToHex(complementHue, hsl.s * 0.75, Math.min(hsl.l + 15, 88)),        // Opposite Light
+                    hslToHex(hsl.h, hsl.s * 0.5, Math.min(hsl.l + 25, 92)),                 // Base Muted
+                    hslToHex(complementHue, hsl.s * 0.5, Math.min(hsl.l + 25, 92))          // Opposite Muted
                 ];
             }
 
-            /**
-             * Generate analogous palette
-             * @param {object} hsl - Base color in HSL
-             * @returns {array} Array of hex colors
-             */
             function generateAnalogous(hsl) {
                 return [
                     hslToHex(normalizeHue(hsl.h - 30), hsl.s, hsl.l),
@@ -809,11 +847,6 @@
                 ];
             }
 
-            /**
-             * Generate triadic palette
-             * @param {object} hsl - Base color in HSL
-             * @returns {array} Array of hex colors
-             */
             function generateTriadic(hsl) {
                 return [
                     hslToHex(hsl.h, hsl.s, hsl.l),
@@ -825,11 +858,6 @@
                 ];
             }
 
-            /**
-             * Generate split-complementary palette
-             * @param {object} hsl - Base color in HSL
-             * @returns {array} Array of hex colors
-             */
             function generateSplitComplementary(hsl) {
                 return [
                     hslToHex(hsl.h, hsl.s, hsl.l),
@@ -841,11 +869,6 @@
                 ];
             }
 
-            /**
-             * Generate tetradic (square) palette
-             * @param {object} hsl - Base color in HSL
-             * @returns {array} Array of hex colors
-             */
             function generateTetradic(hsl) {
                 return [
                     hslToHex(hsl.h, hsl.s, hsl.l),
@@ -857,11 +880,6 @@
                 ];
             }
 
-            /**
-             * Generate monochromatic palette
-             * @param {object} hsl - Base color in HSL
-             * @returns {array} Array of hex colors
-             */
             function generateMonochromatic(hsl) {
                 return [
                     hslToHex(hsl.h, hsl.s, Math.max(hsl.l - 30, 10)),
@@ -873,15 +891,47 @@
                 ];
             }
 
-            /**
-             * Generate palette based on harmony type
-             * @param {string} hex - Base color hex
-             * @param {string} harmony - Harmony type
-             * @returns {array} Array of hex colors
-             */
+            function generateContrast(hsl) {
+                // High-contrast pairs for readability
+                const darkBg = hslToHex(hsl.h, hsl.s * 0.8, 15);
+                const lightText = hslToHex(hsl.h, hsl.s * 0.1, 95);
+                const lightBg = hslToHex(hsl.h, hsl.s * 0.15, 97);
+                const darkText = hslToHex(hsl.h, hsl.s * 0.8, 15);
+                const accentBg = hslToHex(hsl.h, hsl.s, Math.max(hsl.l, 45));
+                const accentText = hsl.l > 50 ? hslToHex(hsl.h, hsl.s * 0.9, 10) : hslToHex(hsl.h, hsl.s * 0.1, 98);
+                
+                return [darkBg, lightText, lightBg, darkText, accentBg, accentText];
+            }
+
+            function generateAccessible(hsl) {
+                // WCAG AA compliant pairs
+                const textDark = hslToHex(hsl.h, hsl.s * 0.7, 20);
+                const bgLight = hslToHex(hsl.h, hsl.s * 0.1, 98);
+                const textOnDark = hslToHex(hsl.h, hsl.s * 0.15, 95);
+                const bgDark = hslToHex(hsl.h, hsl.s * 0.6, 25);
+                
+                // Calculate link colors that pass AA
+                let linkColor = hslToHex(hsl.h, Math.min(hsl.s * 1.2, 100), 35);
+                let linkHover = hslToHex(hsl.h, Math.min(hsl.s * 1.3, 100), 25);
+                
+                return [textDark, bgLight, textOnDark, bgDark, linkColor, linkHover];
+            }
+
+            function generateVibrant(hsl) {
+                // Highly saturated, vibrant colors
+                const maxSat = Math.min(hsl.s * 1.3, 100);
+                return [
+                    hslToHex(hsl.h, hsl.s, hsl.l),
+                    hslToHex(normalizeHue(hsl.h + 30), maxSat, 55),
+                    hslToHex(normalizeHue(hsl.h + 60), maxSat, 50),
+                    hslToHex(normalizeHue(hsl.h - 30), maxSat, 55),
+                    hslToHex(hsl.h, hsl.s * 0.8, 20),
+                    hslToHex(hsl.h, hsl.s * 0.3, 95)
+                ];
+            }
+
             function generatePalette(hex, harmony) {
                 const hsl = hexToHsl(hex);
-
                 switch (harmony) {
                     case 'complementary': return generateComplementary(hsl);
                     case 'analogous': return generateAnalogous(hsl);
@@ -889,84 +939,78 @@
                     case 'split': return generateSplitComplementary(hsl);
                     case 'tetradic': return generateTetradic(hsl);
                     case 'monochromatic': return generateMonochromatic(hsl);
+                    case 'contrast': return generateContrast(hsl);
+                    case 'accessible': return generateAccessible(hsl);
+                    case 'vibrant': return generateVibrant(hsl);
                     default: return generateComplementary(hsl);
                 }
             }
 
             // ========== UI Functions ==========
 
-            /**
-             * Determine if color is light or dark
-             * @param {string} hex - Hex color
-             * @returns {boolean} True if light
-             */
             function isLightColor(hex) {
                 const rgb = hexToRgb(hex);
                 const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
                 return luminance > 0.5;
             }
 
-            /**
-             * Render palette to DOM
-             * @param {array} colors - Array of hex colors
-             */
             function renderPalette(colors) {
                 currentPalette = colors;
                 paletteGrid.innerHTML = '';
+                paletteTypeLabel.textContent = harmonyLabels[currentHarmony];
+
+                const labels = colorLabels[currentHarmony] || [];
+                const showContrast = currentHarmony === 'contrast' || currentHarmony === 'accessible';
 
                 colors.forEach((hex, index) => {
                     const rgb = hexToRgb(hex);
-                    const textColor = isLightColor(hex) ? '#1e1b4b' : '#ffffff';
+                    const label = labels[index] || `Color ${index + 1}`;
 
                     const swatch = document.createElement('div');
                     swatch.className = 'color-swatch';
+
+                    let contrastInfo = '';
+                    if (showContrast && index % 2 === 1) {
+                        const pairColor = colors[index - 1];
+                        const ratio = getContrastRatio(hex, pairColor).toFixed(2);
+                        const passes = meetsWCAG_AA(hex, pairColor);
+                        contrastInfo = `<div class="swatch-contrast ${passes ? 'pass' : 'fail'}">${ratio}:1 ${passes ? '✓ AA' : '✗'}</div>`;
+                    }
+
                     swatch.innerHTML = `
                         <div class="swatch-color" style="background-color: ${hex}"></div>
                         <div class="swatch-info">
                             <div>
+                                <div class="swatch-label">${label}</div>
                                 <div class="swatch-hex">${hex.toUpperCase()}</div>
                                 <div class="swatch-rgb">RGB(${rgb.r}, ${rgb.g}, ${rgb.b})</div>
+                                ${contrastInfo}
                             </div>
                             <button class="swatch-copy" data-color="${hex}">Copy</button>
                         </div>
                     `;
 
-                    // Click to copy
                     swatch.querySelector('.swatch-copy').addEventListener('click', (e) => {
                         e.stopPropagation();
                         copyToClipboard(hex.toUpperCase());
                     });
 
-                    swatch.addEventListener('click', () => {
-                        copyToClipboard(hex.toUpperCase());
-                    });
-
+                    swatch.addEventListener('click', () => copyToClipboard(hex.toUpperCase()));
                     paletteGrid.appendChild(swatch);
                 });
             }
 
-            /**
-             * Show toast notification
-             * @param {string} message - Message to display
-             */
             function showToast(message) {
                 toast.textContent = message;
                 toast.classList.add('show');
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 2000);
+                setTimeout(() => toast.classList.remove('show'), 2000);
             }
 
-            /**
-             * Copy text to clipboard
-             * @param {string} text - Text to copy
-             */
             async function copyToClipboard(text) {
                 try {
                     await navigator.clipboard.writeText(text);
                     showToast(`✓ Copied: ${text}`);
                 } catch (err) {
-                    // Fallback
                     const textarea = document.createElement('textarea');
                     textarea.value = text;
                     document.body.appendChild(textarea);
@@ -977,26 +1021,14 @@
                 }
             }
 
-            /**
-             * Generate random hex color
-             * @returns {string} Random hex color
-             */
             function getRandomColor() {
                 return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
             }
 
-            /**
-             * Validate hex color
-             * @param {string} hex - Hex color to validate
-             * @returns {boolean} True if valid
-             */
             function isValidHex(hex) {
                 return /^#?([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hex);
             }
 
-            /**
-             * Update palette based on current settings
-             */
             function updatePalette() {
                 const hex = colorPicker.value;
                 const palette = generatePalette(hex, currentHarmony);
@@ -1005,19 +1037,14 @@
 
             // ========== Event Listeners ==========
 
-            // Color picker change
             colorPicker.addEventListener('input', (e) => {
                 hexInput.value = e.target.value.toUpperCase();
                 updatePalette();
             });
 
-            // Hex input change
             hexInput.addEventListener('input', (e) => {
                 let value = e.target.value;
-                if (!value.startsWith('#')) {
-                    value = '#' + value;
-                }
-
+                if (!value.startsWith('#')) value = '#' + value;
                 if (isValidHex(value)) {
                     colorPicker.value = value;
                     updatePalette();
@@ -1026,9 +1053,7 @@
 
             hexInput.addEventListener('blur', (e) => {
                 let value = e.target.value;
-                if (!value.startsWith('#')) {
-                    value = '#' + value;
-                }
+                if (!value.startsWith('#')) value = '#' + value;
                 if (isValidHex(value)) {
                     e.target.value = value.toUpperCase();
                 } else {
@@ -1036,7 +1061,6 @@
                 }
             });
 
-            // Harmony buttons
             harmonyBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     harmonyBtns.forEach(b => b.classList.remove('active'));
@@ -1046,7 +1070,6 @@
                 });
             });
 
-            // Randomize button
             randomizeBtn.addEventListener('click', () => {
                 const randomColor = getRandomColor();
                 colorPicker.value = randomColor;
@@ -1054,26 +1077,24 @@
                 updatePalette();
             });
 
-            // Copy all hex codes
             copyAllBtn.addEventListener('click', () => {
                 const hexCodes = currentPalette.map(c => c.toUpperCase()).join(', ');
                 copyToClipboard(hexCodes);
             });
 
-            // Export as CSS
             exportCssBtn.addEventListener('click', () => {
-                const cssVars = currentPalette.map((hex, i) => 
-                    `  --color-${i + 1}: ${hex.toUpperCase()};`
-                ).join('\n');
-                
+                const labels = colorLabels[currentHarmony] || [];
+                const cssVars = currentPalette.map((hex, i) => {
+                    const label = labels[i] ? labels[i].toLowerCase().replace(/\s+/g, '-') : `color-${i + 1}`;
+                    return `  --${label}: ${hex.toUpperCase()};`;
+                }).join('\n');
                 const css = `:root {\n${cssVars}\n}`;
                 copyToClipboard(css);
                 showToast('✓ CSS variables copied!');
             });
 
-            // ========== Initialize ==========
+            // Initialize
             updatePalette();
-
         })();
     </script>
 </body>
