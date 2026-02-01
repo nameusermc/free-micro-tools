@@ -165,6 +165,15 @@
             .adsterra-banner:nth-of-type(n+2) {
                 display: none !important;
             }
+            
+            /* Force 2x1 native banner to single column, show only first ad */
+            .adsterra-banner > div,
+            .adsterra-banner > div > div,
+            .adsterra-banner [class*="container"] {
+                flex-direction: column !important;
+                max-height: 280px !important;
+                overflow: hidden !important;
+            }
         }
 
         /* ========== Features Banner ========== */

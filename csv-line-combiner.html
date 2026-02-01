@@ -530,6 +530,17 @@
                 gap: 0.5rem;
             }
         }
+
+        /* Mobile: Force Adsterra 2x1 banner to single column */
+        @media (max-width: 768px) {
+            .adsterra-banner > div,
+            .adsterra-banner > div > div,
+            .adsterra-banner [class*="container"] {
+                flex-direction: column !important;
+                max-height: 280px !important;
+                overflow: hidden !important;
+            }
+        }
     </style>
 </head>
 <body>
