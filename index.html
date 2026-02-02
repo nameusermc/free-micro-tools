@@ -155,25 +155,10 @@
             padding: 1.5rem 1rem;
         }
 
-        /* ========== Adsterra Banner Control ========== */
-        .adsterra-banner {
-            margin-bottom: 1.5rem;
-        }
-
-        /* Mobile: Show only 1 ad */
-        @media only screen and (max-width: 768px) {
-            .adsterra-banner:nth-of-type(n+2) {
-                display: none !important;
-            }
-            
-            /* Force 2x1 native banner to single column, show only first ad */
-            .adsterra-banner > div,
-            .adsterra-banner > div > div,
-            .adsterra-banner [class*="container"] {
-                flex-direction: column !important;
-                max-height: 280px !important;
-                overflow: hidden !important;
-            }
+        /* ========== Ad Container ========== */
+        .ad-container {
+            margin: 1.5rem 0;
+            text-align: center;
         }
 
         /* ========== Features Banner ========== */
@@ -440,8 +425,8 @@
     </header>
 
     <main class="container">
-        <!-- Adsterra Banner 1 (Always visible) -->
-        <div class="adsterra-banner" role="complementary" aria-label="Advertisement">
+        <!-- Native Banner Ad (2:1) -->
+        <div class="ad-container">
             <script async="async" data-cfasync="false" src="https://pl28621250.effectivegatecpm.com/d403dd911608318630226f132a1dc636/invoke.js"></script>
             <div id="container-d403dd911608318630226f132a1dc636"></div>
         </div>
@@ -576,12 +561,6 @@
             </div>
         </section>
 
-        <!-- Adsterra Banner 2 (Hidden on mobile via CSS) -->
-        <div class="adsterra-banner" role="complementary" aria-label="Advertisement">
-            <script async="async" data-cfasync="false" src="https://pl28621250.effectivegatecpm.com/d403dd911608318630226f132a1dc636/invoke.js"></script>
-            <div id="container-d403dd911608318630226f132a1dc636-2"></div>
-        </div>
-
         <!-- ==================== COLOR & DESIGN ==================== -->
         <section class="category-section" id="color-design" aria-labelledby="color-design-heading">
             <div class="category-header">
@@ -702,6 +681,12 @@
             </div>
         </section>
     </main>
+
+    <!-- Native Banner Ad (2:1) -->
+    <div class="ad-container">
+        <script async="async" data-cfasync="false" src="https://pl28621250.effectivegatecpm.com/d403dd911608318630226f132a1dc636/invoke.js"></script>
+        <div id="container-d403dd911608318630226f132a1dc636"></div>
+    </div>
 
     <!-- Footer -->
     <footer>
