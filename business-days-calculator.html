@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Ezoic Privacy Scripts (load first) -->
+    <script data-cfasync="false" src="https://cmp.gatekeeperconsent.com/min.js"></script>
+    <script data-cfasync="false" src="https://the.gatekeeperconsent.com/cmp.min.js"></script>
+    <!-- Ezoic Header Script -->
+    <script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
+    <script>
+        window.ezstandalone = window.ezstandalone || {};
+        ezstandalone.cmd = ezstandalone.cmd || [];
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free business days calculator - Count working days between two dates (Monday-Friday)">
+    <title>Business Days Calculator | Count Working Days</title>
+    <style>
+        /* ========== CSS Reset & Base Styles ========== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #0891b2;
+            --primary-dark: #0e7490;
+            --primary-light: #cffafe;
+            --success: #10b981;
+            --bg: #f0fdfa;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        /* ========== Layout ========== */
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* ========== Card Component ========== */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .card-subtitle {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ========== Form Elements ========== */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: white;
+        }
+
+        input[type="date"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.1);
+        }
+
+        .input-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* ========== Date Range Display ========== */
+        .date-range-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--primary-light);
+            border-radius: 8px;
+            margin-bottom: 1.25rem;
+        }
+
+        .date-box {
+            text-align: center;
+            flex: 1;
+        }
+
+        .date-box-label {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .date-box-value {
+            font-weight: 700;
+            font-size: 0.9375rem;
+            color: var(--primary-dark);
+        }
+
+        .date-arrow {
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        /* ========== Calculate Button ========== */
+        .btn-calculate {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-calculate:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-calculate:active {
+            transform: scale(0.98);
+        }
+
+        /* ========== Results Section ========== */
+        .results {
+            display: none;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+        }
+
+        .results.show { display: block; }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+        }
+
+        .result-row:not(:last-child) {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .result-label {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .result-value {
+            font-weight: 700;
+            font-size: 1.125rem;
+        }
+
+        .result-highlight {
+            background: linear-gradient(135deg, var(--primary), var(--success));
+            color: white;
+            padding: 1.25rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .result-highlight .result-label {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .result-highlight .result-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .result-highlight .result-unit {
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        /* ========== Day Breakdown ========== */
+        .day-breakdown {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .day-stat {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .day-stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .day-stat-label {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        /* ========== Instructions Section ========== */
+        .instructions {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .instructions h3 {
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .instructions ul {
+            margin-left: 1.25rem;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+
+        .instructions li {
+            margin-bottom: 0.25rem;
+        }
+
+        /* ========== Error State ========== */
+        .error {
+            border-color: #ef4444 !important;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .error-message.show { display: block; }
+
+        /* ========== Footer ========== */
+        footer {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* ========== Tool Description ========== */
+        .tool-description {
+            background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+        }
+
+        .tool-description p {
+            margin: 0;
+            color: var(--text);
+        }
+
+        /* ========== Responsive ========== */
+        @media (max-width: 400px) {
+            .day-breakdown {
+                grid-template-columns: 1fr;
+            }
+
+            .date-range-display {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .date-arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html">← Back to Tools</a>
+
+        <!-- Tool Description -->
+        <div class="tool-description">
+            <p>Calculate the number of business days (Monday–Friday) between any two dates. Perfect for project planning, deadline tracking, and work scheduling.</p>
+        </div>
+
+        <!-- Main Calculator Card -->
+        <main class="card">
+            <h1 class="card-title">📅 Business Days Calculator</h1>
+            <p class="card-subtitle">Count working days between two dates</p>
+
+            <form id="calcForm" novalidate>
+                <!-- Start Date Input -->
+                <div class="form-group">
+                    <label for="startDate">Start Date</label>
+                    <input 
+                        type="date" 
+                        id="startDate" 
+                        required
+                        aria-describedby="startError"
+                    >
+                    <span id="startError" class="error-message">Please select a start date</span>
+                </div>
+
+                <!-- End Date Input -->
+                <div class="form-group">
+                    <label for="endDate">End Date</label>
+                    <input 
+                        type="date" 
+                        id="endDate" 
+                        required
+                        aria-describedby="endError"
+                    >
+                    <span id="endError" class="error-message">Please select an end date</span>
+                </div>
+
+                <!-- Calculate Button -->
+                <button type="submit" class="btn-calculate">Calculate Business Days</button>
+            </form>
+
+            <!-- Results Section -->
+            <div id="results" class="results">
+                <!-- Date Range Display -->
+                <div class="date-range-display">
+                    <div class="date-box">
+                        <div class="date-box-label">From</div>
+                        <div class="date-box-value" id="displayStart">-</div>
+                    </div>
+                    <div class="date-arrow">→</div>
+                    <div class="date-box">
+                        <div class="date-box-label">To</div>
+                        <div class="date-box-value" id="displayEnd">-</div>
+                    </div>
+                </div>
+
+                <!-- Main Result -->
+                <div class="result-highlight">
+                    <div class="result-label">Business Days (Mon–Fri)</div>
+                    <div class="result-value" id="resultBusinessDays">0</div>
+                    <div class="result-unit">working days</div>
+                </div>
+
+                <!-- Breakdown -->
+                <div class="day-breakdown">
+                    <div class="day-stat">
+                        <div class="day-stat-value" id="resultTotalDays">0</div>
+                        <div class="day-stat-label">Total Days</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-value" id="resultWeekendDays">0</div>
+                        <div class="day-stat-label">Weekend Days</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-value" id="resultWeeks">0</div>
+                        <div class="day-stat-label">Full Weeks</div>
+                    </div>
+                    <div class="day-stat">
+                        <div class="day-stat-value" id="resultMonths">0</div>
+                        <div class="day-stat-label">Approx. Months</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage Instructions -->
+            <div class="instructions">
+                <h3>📖 How to Use</h3>
+                <ul>
+                    <li>Select a <strong>start date</strong> for your range</li>
+                    <li>Select an <strong>end date</strong> (can be before or after start)</li>
+                    <li>Click <strong>Calculate</strong> to see business days</li>
+                    <li>Business days exclude Saturdays and Sundays</li>
+                    <li>Both start and end dates are included if they are weekdays</li>
+                </ul>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2026 Free Micro Web Tools. All tools are free to use.</p>
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="terms.html">Terms</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        /**
+         * Business Days Calculator
+         * Calculates working days (Mon-Fri) between two dates
+         * Pure vanilla JavaScript implementation
+         */
+        (function() {
+            'use strict';
+
+            // DOM References
+            const form = document.getElementById('calcForm');
+            const startDateInput = document.getElementById('startDate');
+            const endDateInput = document.getElementById('endDate');
+            const resultsSection = document.getElementById('results');
+
+            // Result elements
+            const displayStart = document.getElementById('displayStart');
+            const displayEnd = document.getElementById('displayEnd');
+            const resultBusinessDays = document.getElementById('resultBusinessDays');
+            const resultTotalDays = document.getElementById('resultTotalDays');
+            const resultWeekendDays = document.getElementById('resultWeekendDays');
+            const resultWeeks = document.getElementById('resultWeeks');
+            const resultMonths = document.getElementById('resultMonths');
+
+            // Error elements
+            const startError = document.getElementById('startError');
+            const endError = document.getElementById('endError');
+
+            /**
+             * Format date for display
+             * @param {Date} date - Date object
+             * @returns {string} Formatted date string
+             */
+            function formatDate(date) {
+                const options = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+                return date.toLocaleDateString('en-US', options);
+            }
+
+            /**
+             * Calculate business days between two dates (inclusive)
+             * @param {Date} start - Start date
+             * @param {Date} end - End date
+             * @returns {number} Number of business days
+             */
+            function calculateBusinessDays(start, end) {
+                // Ensure start is before end
+                if (start > end) {
+                    [start, end] = [end, start];
+                }
+
+                let count = 0;
+                const current = new Date(start);
+
+                while (current <= end) {
+                    const dayOfWeek = current.getDay();
+                    // 0 = Sunday, 6 = Saturday
+                    if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+                        count++;
+                    }
+                    current.setDate(current.getDate() + 1);
+                }
+
+                return count;
+            }
+
+            /**
+             * Calculate total calendar days between two dates (inclusive)
+             * @param {Date} start - Start date
+             * @param {Date} end - End date
+             * @returns {number} Number of total days
+             */
+            function calculateTotalDays(start, end) {
+                if (start > end) {
+                    [start, end] = [end, start];
+                }
+                const diffTime = Math.abs(end - start);
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                return diffDays + 1; // Include both start and end
+            }
+
+            /**
+             * Toggle error state
+             * @param {HTMLElement} input - Input element
+             * @param {HTMLElement} errorEl - Error element
+             * @param {boolean} show - Show or hide error
+             */
+            function toggleError(input, errorEl, show) {
+                if (show) {
+                    input.classList.add('error');
+                    errorEl.classList.add('show');
+                } else {
+                    input.classList.remove('error');
+                    errorEl.classList.remove('show');
+                }
+            }
+
+            /**
+             * Validate form inputs
+             * @returns {boolean} True if valid
+             */
+            function validateInputs() {
+                let isValid = true;
+
+                if (!startDateInput.value) {
+                    toggleError(startDateInput, startError, true);
+                    isValid = false;
+                } else {
+                    toggleError(startDateInput, startError, false);
+                }
+
+                if (!endDateInput.value) {
+                    toggleError(endDateInput, endError, true);
+                    isValid = false;
+                } else {
+                    toggleError(endDateInput, endError, false);
+                }
+
+                return isValid;
+            }
+
+            /**
+             * Perform calculation and display results
+             */
+            function calculate() {
+                const startDate = new Date(startDateInput.value + 'T00:00:00');
+                const endDate = new Date(endDateInput.value + 'T00:00:00');
+
+                // Ensure proper order for display
+                let displayStartDate = startDate;
+                let displayEndDate = endDate;
+                if (startDate > endDate) {
+                    displayStartDate = endDate;
+                    displayEndDate = startDate;
+                }
+
+                const businessDays = calculateBusinessDays(startDate, endDate);
+                const totalDays = calculateTotalDays(startDate, endDate);
+                const weekendDays = totalDays - businessDays;
+                const fullWeeks = Math.floor(totalDays / 7);
+                const approxMonths = (totalDays / 30.44).toFixed(1);
+
+                // Update display
+                displayStart.textContent = formatDate(displayStartDate);
+                displayEnd.textContent = formatDate(displayEndDate);
+                resultBusinessDays.textContent = businessDays.toLocaleString();
+                resultTotalDays.textContent = totalDays.toLocaleString();
+                resultWeekendDays.textContent = weekendDays.toLocaleString();
+                resultWeeks.textContent = fullWeeks.toLocaleString();
+                resultMonths.textContent = approxMonths;
+
+                // Show results
+                resultsSection.classList.add('show');
+            }
+
+            /**
+             * Handle form submission
+             * @param {Event} e - Submit event
+             */
+            function handleSubmit(e) {
+                e.preventDefault();
+                if (validateInputs()) {
+                    calculate();
+                }
+            }
+
+            // Event Listeners
+            form.addEventListener('submit', handleSubmit);
+
+            // Clear errors on input change
+            startDateInput.addEventListener('change', () => {
+                toggleError(startDateInput, startError, false);
+            });
+
+            endDateInput.addEventListener('change', () => {
+                toggleError(endDateInput, endError, false);
+            });
+
+            // Set default dates (today and 30 days from now)
+            const today = new Date();
+            const future = new Date();
+            future.setDate(today.getDate() + 30);
+
+            startDateInput.value = today.toISOString().split('T')[0];
+            endDateInput.value = future.toISOString().split('T')[0];
+
+        })();
+    </script>
+</body>
+</html>
