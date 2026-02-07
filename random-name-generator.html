@@ -1255,5 +1255,28 @@ Frank"></textarea>
 
         })();
     </script>
+
+    <!-- GA4 Event Tracking -->
+    <script>
+        (function() {
+            // Track tool page landing
+            gtag('event', 'tool_landed', {
+                'tool_name': 'Random Name / List Generator'
+            });
+            
+            // Track tool usage
+            function trackToolUsed(inputCount, customValuesUsed, resultGenerated) {
+                gtag('event', 'tool_used', {
+                    'tool_name': 'Random Name / List Generator',
+                    'input_count': inputCount || 0,
+                    'custom_values_used': customValuesUsed || false,
+                    'result_generated': resultGenerated || false
+                });
+            }
+            
+            // Expose tracking function globally for this tool
+            window.trackToolUsed = trackToolUsed;
+        })();
+    </script>
 </body>
 </html>

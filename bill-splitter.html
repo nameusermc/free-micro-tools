@@ -986,6 +986,8 @@
 
                 summaryTotal.textContent = formatCurrency(total);
                 resultsSection.classList.add('show');
+                // GA4: Track tool usage
+                if (window.trackToolUsed) trackToolUsed(participants.length, true, true);
 
                 // Scroll to results
                 setTimeout(() => {
@@ -1048,6 +1050,29 @@
             // Initialize
             renderPersonRows();
 
+        })();
+    </script>
+
+    <!-- GA4 Event Tracking -->
+    <script>
+        (function() {
+            // Track tool page landing
+            gtag('event', 'tool_landed', {
+                'tool_name': 'Expense Splitter'
+            });
+            
+            // Track tool usage
+            function trackToolUsed(inputCount, customValuesUsed, resultGenerated) {
+                gtag('event', 'tool_used', {
+                    'tool_name': 'Expense Splitter',
+                    'input_count': inputCount || 0,
+                    'custom_values_used': customValuesUsed || false,
+                    'result_generated': resultGenerated || false
+                });
+            }
+            
+            // Expose tracking function globally for this tool
+            window.trackToolUsed = trackToolUsed;
         })();
     </script>
 </body>

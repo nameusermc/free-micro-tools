@@ -677,6 +677,8 @@ The counter will update automatically as you type!"
              * Update all statistics
              */
             function updateStats() {
+            // GA4: Track on first meaningful input
+            if (text.length > 10 && !window._wcTracked) { window._wcTracked = true; if (window.trackToolUsed) trackToolUsed(1, true, true); }
                 const text = textInput.value;
                 
                 // Calculate all stats
@@ -792,6 +794,29 @@ The counter will update automatically as you type!"
             // Focus textarea on load
             textInput.focus();
 
+        })();
+    </script>
+
+    <!-- GA4 Event Tracking -->
+    <script>
+        (function() {
+            // Track tool page landing
+            gtag('event', 'tool_landed', {
+                'tool_name': 'Word Counter'
+            });
+            
+            // Track tool usage
+            function trackToolUsed(inputCount, customValuesUsed, resultGenerated) {
+                gtag('event', 'tool_used', {
+                    'tool_name': 'Word Counter',
+                    'input_count': inputCount || 0,
+                    'custom_values_used': customValuesUsed || false,
+                    'result_generated': resultGenerated || false
+                });
+            }
+            
+            // Expose tracking function globally for this tool
+            window.trackToolUsed = trackToolUsed;
         })();
     </script>
 </body>

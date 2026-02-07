@@ -1035,6 +1035,8 @@
 
                     if (mode === 'timer') {
                         timerDisplay.classList.add('show');
+            // GA4: Track tool usage
+            if (window.trackToolUsed) trackToolUsed(2, true, true);
                     }
                 });
             });
@@ -1287,6 +1289,8 @@
                 timerValue.textContent = formatTime(timerSeconds);
                 timerLabel.textContent = 'Ready';
                 timerDisplay.classList.add('show');
+            // GA4: Track tool usage
+            if (window.trackToolUsed) trackToolUsed(2, true, true);
                 laps = [];
                 lapsList.innerHTML = '';
                 lapsContainer.style.display = 'none';
@@ -1454,7 +1458,32 @@
             targetDateInput.min = today;
 
             timerDisplay.classList.add('show');
+            // GA4: Track tool usage
+            if (window.trackToolUsed) trackToolUsed(2, true, true);
 
+        })();
+    </script>
+
+    <!-- GA4 Event Tracking -->
+    <script>
+        (function() {
+            // Track tool page landing
+            gtag('event', 'tool_landed', {
+                'tool_name': 'Countdown / Deadline Timer'
+            });
+            
+            // Track tool usage
+            function trackToolUsed(inputCount, customValuesUsed, resultGenerated) {
+                gtag('event', 'tool_used', {
+                    'tool_name': 'Countdown / Deadline Timer',
+                    'input_count': inputCount || 0,
+                    'custom_values_used': customValuesUsed || false,
+                    'result_generated': resultGenerated || false
+                });
+            }
+            
+            // Expose tracking function globally for this tool
+            window.trackToolUsed = trackToolUsed;
         })();
     </script>
 </body>

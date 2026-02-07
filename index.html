@@ -689,5 +689,13 @@
             <a href="terms.html">Terms of Service</a>
         </nav>
     </footer>
+
+    <!-- GA4 Event Tracking -->
+    <script>
+        // Track homepage landing
+        document.addEventListener('DOMContentLoaded', function() {
+            gtag('event', 'index_landed');
+        });
+    </script>
 </body>
 </html>
